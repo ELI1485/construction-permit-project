@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class PermitType extends Model
+{
+    protected $fillable = ['nom', 'description'];
+
+    public function permits()
+    {
+        return $this->hasMany(Permit::class);
+    }
+}
