@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
+<<<<<<< HEAD
     protected $fillable = [
         'user_id', 'permit_id', 'titre', 'message', 'is_read',
     ];
@@ -22,3 +23,7 @@ class Notification extends Model
         return $this->belongsTo(Permit::class);
     }
 }
+=======
+    //
+}
+>>>>>>> d704913ffe19b0dc7ca77cbdca09657be3a8f3a0

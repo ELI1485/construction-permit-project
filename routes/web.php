@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermitController;
@@ -65,3 +66,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markRead']);
     Route::post('/permits/{id}/documents', [DocumentController::class, 'upload']);
 });
+=======
+
+Route::get('/', function () {
+    return view('welcome');
+});
+>>>>>>> d704913ffe19b0dc7ca77cbdca09657be3a8f3a0
