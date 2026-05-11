@@ -2,64 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permit;
 use Illuminate\Http\Request;
+
+use App\Models\Permit;
+
+use App\Services\AIService;
 
 class PermitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function store(
+        Request $request,
+        AIService $aiService
+    )
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $validated = $request->validate([
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            'permit_type' => 'required|string',
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Permit $permit)
-    {
-        //
-    }
+            'surface' => 'required|numeric'
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Permit $permit)
-    {
-        //
-    }
+        $uploadedDocs = [
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Permit $permit)
-    {
-        //
-    }
+            'cin'
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Permit $permit)
-    {
-        //
+        $aiResult = $aiService->validatePermit([
+
+            'surface' => $validated['surface'],
+
+            'permit_type' => $validated['permit_type'],
+
+            'uploaded_docs' => $uploadedDocs
+        ]);
+
+        $permit = Permit::create([
+
+            'user_id' => 1,
+
+            'permit_type' => $validated['permit_type'],
+
+            'surface' => $validated['surface'],
+
+            'status' => 'submitted',
+
+            'risk_score' => $aiResult['risk_score'],
+
+            'risk_level' => $aiResult['risk_level'],
+
+            'ai_priority' => $aiResult['priority'],
+
+            'technical_review_required' => $aiResult[
+                'technical_review_required'
+            ],
+
+            'ai_recommendations' => $aiResult[
+                'recommendations'
+            ]
+        ]);
+
+        return response()->json([
+
+            'message' => 'Permit created successfully',
+
+            'permit' => $permit,
+
+            'ai_analysis' => $aiResult
+        ]);
     }
 }
