@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TechnicalReviewRequest;
 use App\Models\Permit;
 use App\Models\TechnicalReview;
 use App\Models\Status;
@@ -13,12 +14,8 @@ use Illuminate\Support\Facades\Auth;
 
 class TechnicalReviewController extends Controller
 {
-    public function store(Request $request, $id)
+    public function store(TechnicalReviewRequest $request, $id)
     {
-        $request->validate([
-            'conformite' => 'required|boolean',
-            'remarque'   => 'nullable|string',
-        ]);
 
         $permit = Permit::findOrFail($id);
 
