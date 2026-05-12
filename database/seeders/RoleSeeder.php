@@ -2,14 +2,18 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
 {
     public function run(): void
     {
         $roles = [
+            'citoyen',
+            'architecte',
+            'agent_urbanisme',
+            'service_technique',
             'مواطن',
             'ممثل الشخص المعنوي',
             'مهندس معماري',
@@ -20,7 +24,7 @@ class RoleSeeder extends Seeder
             'عضو اللجنة',
             'ممثل متعهد شركة الاتصالات',
             'ممثل متعهد شركة شبكات الماء والكهرباء',
-            'administrateur', 
+            'administrateur',
         ];
 
         foreach ($roles as $nom) {

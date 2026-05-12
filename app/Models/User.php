@@ -59,17 +59,17 @@ class User extends Authenticatable
 
     public function isCitoyen(): bool
     {
-        return $this->role?->nom === 'citoyen';
+        return in_array($this->role?->nom, ['citoyen', 'مواطن', 'ممثل الشخص المعنوي'], true);
     }
 
     public function isArchitecte(): bool
     {
-        return $this->role?->nom === 'architecte';
+        return in_array($this->role?->nom, ['architecte', 'مهندس معماري', 'مهندس مساح طوبوغرافي', 'مهندس مختص'], true);
     }
 
     public function isAgent(): bool
     {
-        return $this->role?->nom === 'agent_urbanisme';
+        return in_array($this->role?->nom, ['agent_urbanisme', 'ممثل منعش عقاري', 'ممثل جماعة ترابية', 'عضو اللجنة', 'ممثل متعهد شركة الاتصالات', 'ممثل متعهد شركة شبكات الماء والكهرباء'], true);
     }
 
     public function isTechnical(): bool
