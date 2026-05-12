@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class AIService
 {
-    protected $baseUrl;
+    protected string $baseUrl;
 
     public function __construct()
     {
@@ -44,7 +44,7 @@ class AIService
         return [];
     }
 
-    public function validatePermit($data)
+    public function validatePermit(array $data): array
     {
         try {
             $response = Http::timeout(10)->post(
