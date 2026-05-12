@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>تسجيل الدخول - رخص</title>
+    <title>تسجيل الدخول - رُخْصَتِي</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=tajawal:400,500,700,800&display=swap" rel="stylesheet" />
@@ -13,6 +13,7 @@
     @else
         <script src="https://cdn.tailwindcss.com"></script>
     @endif
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         body { font-family: 'Tajawal', sans-serif; }
     </style>
@@ -21,11 +22,13 @@
 
     <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <!-- Logo -->
-        <a href="{{ url('/') }}" class="inline-flex items-center gap-2 group mb-2">
-            <div class="w-12 h-12 rounded-xl bg-[#006399] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <a href="{{ url('/') }}" class="inline-flex items-center justify-center gap-3 group mb-2">
+            <img src="{{ asset('images/logo.png') }}" alt="شعار رخصتي"
+                 class="w-12 h-12 object-contain group-hover:scale-105 transition-transform" />
+            <div class="flex flex-col items-start leading-tight">
+                <span class="text-3xl font-extrabold text-[#006399] tracking-tight leading-none">رُخْصَتِي</span>
+                <span class="text-xs font-bold text-[#D4AF37] tracking-widest uppercase">Rokhsati</span>
             </div>
-            <span class="text-3xl font-extrabold text-[#006399] tracking-tight">رخص</span>
         </a>
         <h2 class="mt-4 text-center text-2xl font-bold text-slate-800 tracking-tight">
             تسجيل الدخول إلى حسابك

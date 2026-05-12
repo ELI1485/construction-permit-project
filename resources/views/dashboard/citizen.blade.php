@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'فضاء المواطن - رخص')
+@section('title', 'فضاء المواطن - رُخْصَتِي')
 
 @section('content')
 <div class="max-w-6xl mx-auto space-y-8">
@@ -117,7 +117,7 @@
                                     </span>
                                 </td>
                                 <td class="p-4 text-center">
-                                    <a href="{{ url('/permits/show?id=' . ($permit->id ?? 1)) }}" class="text-xs text-[#006399] hover:underline font-bold">عرض التفاصيل</a>
+                                    <a href="{{ route('permits.show', $permit->id) }}" class="text-xs text-[#006399] hover:underline font-bold">عرض التفاصيل</a>
                                 </td>
                             </tr>
                         @endforeach

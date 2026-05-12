@@ -10,9 +10,10 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TechnicalReviewController;
+use App\Models\Permit;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Services\AIService;
 
 Route::get('/', fn () => view('welcome'));
 
@@ -94,10 +95,10 @@ Route::get('/dashboard', function () {
         return view('statistics.dashboard');
     }
 
-    /** @var \App\Models\User $user */
+    /** @var User $user */
     $user = Auth::user();
     $userRole = $user->role?->nom;
-    $mappedRole = match($userRole) {
+    $mappedRole = match ($userRole) {
         'مواطن', 'ممثل الشخص المعنوي' => 'citoyen',
         'مهندس معماري', 'مهندس مساح طوبوغرافي', 'مهندس مختص' => 'architecte',
         'ممثل منعش عقاري', 'ممثل جماعة ترابية', 'عضو اللجنة', 'ممثل متعهد شركة الاتصالات', 'ممثل متعهد شركة شبكات الماء والكهرباء' => 'agent_urbanisme',
@@ -105,7 +106,7 @@ Route::get('/dashboard', function () {
         default => 'citoyen',
     };
 
-    return match($mappedRole) {
+    return match ($mappedRole) {
         'citoyen' => app(DashboardController::class)->citizen(),
         'architecte' => app(DashboardController::class)->architect(),
         'agent_urbanisme' => app(DashboardController::class)->agent(),
@@ -122,42 +123,80 @@ Route::get('/dashboard/architect', [DashboardController::class, 'architect']);
 Route::get('/dashboard/citizen', [DashboardController::class, 'citizen']);
 Route::get('/dashboard/technical', [DashboardController::class, 'technical']);
 
-// Permits previews
-Route::get('/permits', function () { return view('permits.index'); })->name('permits.index');
-Route::get('/permits/create', function () { return view('permits.create'); })->name('permits.create');
-Route::get('/permits/edit', function () { return view('permits.edit'); })->name('permits.edit');
-Route::get('/permits/show', function () { return view('permits.show'); })->name('permits.show');
-Route::get('/permits/history', function () { return view('permits.history'); })->name('permits.history');
+// Permits (served with real data)
+Route::get('/permits', function () {
+    $permits = Permit::with('status', 'citizen', 'permitType', 'district')
+        ->latest()->paginate(15);
+
+    return view('permits.index', compact('permits'));
+})->name('permits.index');
+Route::get('/permits/create', function () {
+    return view('permits.create');
+})->name('permits.create');
+Route::get('/permits/edit', function () {
+    return view('permits.edit');
+})->name('permits.edit');
+Route::get('/permits/{permit}', function (Permit $permit) {
+    $permit->load('status', 'citizen', 'architect', 'permitType', 'district', 'documents.documentType', 'histories.oldStatus', 'histories.newStatus');
+
+    return view('permits.show', compact('permit'));
+})->name('permits.show');
+Route::get('/permits/{permit}/history', function (Permit $permit) {
+    $permit->load('histories.oldStatus', 'histories.newStatus');
+
+    return view('permits.history', compact('permit'));
+})->name('permits.history');
 
 // Documents previews
-Route::get('/documents', function () { return view('documents.index'); })->name('documents.index');
-Route::get('/documents/upload', function () { return view('documents.upload'); })->name('documents.upload');
-Route::get('/documents/preview', function () { return view('documents.preview'); })->name('documents.preview');
+Route::get('/documents', function () {
+    return view('documents.index');
+})->name('documents.index');
+Route::get('/documents/upload', function () {
+    return view('documents.upload');
+})->name('documents.upload');
+Route::get('/documents/preview', function () {
+    return view('documents.preview');
+})->name('documents.preview');
 
 // Archives preview
-Route::get('/archives', function () { return view('archives.index'); })->name('archives.index');
+Route::get('/archives', function () {
+    return view('archives.index');
+})->name('archives.index');
 
 // Users Management preview
-Route::get('/users', function () { return view('users.index'); })->name('users.index');
+Route::get('/users', function () {
+    return view('users.index');
+})->name('users.index');
 
 // Commissions (اللجان)
-Route::get('/commissions', function () { return view('commissions.index'); })->name('commissions.index');
+Route::get('/commissions', function () {
+    return view('commissions.index');
+})->name('commissions.index');
 
 // Inspections (المعاينات)
-Route::get('/inspections', function () { return view('inspections.index'); })->name('inspections.index');
+Route::get('/inspections', function () {
+    return view('inspections.index');
+})->name('inspections.index');
 
 // Payments (الرسوم)
-Route::get('/payments', function () { return view('payments.index'); })->name('payments.index');
+Route::get('/payments', function () {
+    return view('payments.index');
+})->name('payments.index');
 
 // Reports (التقارير)
-Route::get('/reports', function () { return view('reports.index'); })->name('reports.index');
+Route::get('/reports', function () {
+    return view('reports.index');
+})->name('reports.index');
 
 // Settings (الإعدادات)
-Route::get('/settings', function () { return view('settings.index'); })->name('settings.index');
+Route::get('/settings', function () {
+    return view('settings.index');
+})->name('settings.index');
 
 // Statistics (الإحصائيات)
-Route::get('/statistics', function () { return view('statistics.dashboard'); })->name('statistics.index');
+Route::get('/statistics', function () {
+    return view('statistics.dashboard');
+})->name('statistics.index');
 
 // AI Test Endpoint
 Route::post('/permits', [PermitController::class, 'store']);
-

@@ -1,88 +1,111 @@
 @extends('layouts.app')
 
-@section('title', 'قائمة التراخيص')
+@section('title', 'قائمة التراخيص - رُخْصَتِي')
 
 @section('content')
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-slate-800 mb-1">إدارة التراخيص</h1>
-        <p class="text-slate-500 text-sm">عرض وإدارة جميع طلبات التراخيص.</p>
-    </div>
-    <a href="{{ route('permits.create') }}" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-        إضافة ترخيص جديد
-    </a>
-</div>
+<div class="max-w-6xl mx-auto space-y-6">
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-    <!-- Filter Bar -->
-    <div class="p-4 border-b border-slate-100 flex gap-4">
-        <div class="relative flex-1 max-w-md">
-            <input type="text" placeholder="بحث برقم الطلب أو الاسم..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm">
-            <svg class="w-5 h-5 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    {{-- Header --}}
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-1">إدارة التراخيص</h1>
+            <p class="text-slate-500 text-sm">عرض وإدارة جميع طلبات التراخيص المقدمة عبر المنصة.</p>
         </div>
-        <select class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500">
-            <option value="">جميع الحالات</option>
-            <option value="approved">مقبول</option>
-            <option value="pending">قيد المعالجة</option>
-            <option value="rejected">مرفوض</option>
-        </select>
+        @if(auth()->user()?->isCitoyen() || auth()->user()?->isArchitecte())
+        <a href="{{ route('permits.create') }}"
+           class="inline-flex items-center gap-2 bg-[#006399] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-[#005180] transition-colors shadow-md shadow-blue-200 text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            تقديم طلب جديد
+        </a>
+        @endif
     </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto">
-        <table class="w-full text-right text-sm">
-            <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
-                <tr>
-                    <th class="px-6 py-4 font-medium">رقم الطلب</th>
-                    <th class="px-6 py-4 font-medium">مقدم الطلب</th>
-                    <th class="px-6 py-4 font-medium">نوع الترخيص</th>
-                    <th class="px-6 py-4 font-medium">تاريخ التقديم</th>
-                    <th class="px-6 py-4 font-medium">الحالة</th>
-                    <th class="px-6 py-4 font-medium text-center">الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-6 py-4 font-medium text-slate-800">#REQ-2026-001</td>
-                    <td class="px-6 py-4">شركة الأفق للبناء</td>
-                    <td class="px-6 py-4">بناء تجاري</td>
-                    <td class="px-6 py-4 text-slate-500">11 مايو 2026</td>
-                    <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-600 border border-amber-200">
-                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                            قيد المعالجة
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center justify-center gap-2">
-                            <a href="{{ route('permits.show') }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="عرض التفاصيل">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-6 py-4 font-medium text-slate-800">#REQ-2026-002</td>
-                    <td class="px-6 py-4">أحمد محمد</td>
-                    <td class="px-6 py-4">ترميم منزل</td>
-                    <td class="px-6 py-4 text-slate-500">09 مايو 2026</td>
-                    <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-600 border border-green-200">
-                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                            مقبول
-                        </span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center justify-center gap-2">
-                            <a href="{{ route('permits.show') }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="عرض التفاصيل">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    {{-- Table Card --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        {{-- Filter Bar --}}
+        <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3">
+            <div class="relative flex-1 min-w-[200px] max-w-sm">
+                <input type="text" id="searchInput" placeholder="بحث برقم الملف أو العنوان..."
+                       class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm">
+                <svg class="w-4 h-4 text-slate-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <select id="statusFilter" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399]">
+                <option value="">جميع الحالات</option>
+                <option value="Soumis">مُودَع</option>
+                <option value="En cours">قيد الدراسة</option>
+                <option value="Validé">مقبول</option>
+                <option value="Refusé">مرفوض</option>
+            </select>
+        </div>
+
+        {{-- Table --}}
+        @if(isset($permits) && $permits->count() > 0)
+            <div class="overflow-x-auto">
+                <table class="w-full text-right text-sm" id="permitsTable">
+                    <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
+                        <tr>
+                            <th class="px-6 py-4 font-medium">رقم المرجع</th>
+                            <th class="px-6 py-4 font-medium">مقدم الطلب</th>
+                            <th class="px-6 py-4 font-medium">نوع الترخيص</th>
+                            <th class="px-6 py-4 font-medium">المنطقة</th>
+                            <th class="px-6 py-4 font-medium">تاريخ الإيداع</th>
+                            <th class="px-6 py-4 font-medium">الحالة</th>
+                            <th class="px-6 py-4 font-medium text-center">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach($permits as $permit)
+                        <tr class="hover:bg-slate-50/50 transition-colors permit-row">
+                            <td class="px-6 py-4 font-bold text-[#006399]">{{ $permit->reference_number }}</td>
+                            <td class="px-6 py-4 text-slate-700">
+                                {{ $permit->citizen?->nom }} {{ $permit->citizen?->prenom }}
+                            </td>
+                            <td class="px-6 py-4 text-slate-600">{{ $permit->permitType?->nom ?? '—' }}</td>
+                            <td class="px-6 py-4 text-slate-500 text-xs">{{ $permit->district?->nom ?? '—' }}</td>
+                            <td class="px-6 py-4 text-slate-500 text-xs">{{ $permit->created_at?->format('d/m/Y') ?? '—' }}</td>
+                            <td class="px-6 py-4">
+                                @php
+                                    $statusColors = [
+                                        'Soumis' => 'bg-blue-50 text-blue-600 border-blue-200',
+                                        "En cours d'étude" => 'bg-amber-50 text-amber-600 border-amber-200',
+                                        'Validé techniquement' => 'bg-teal-50 text-teal-600 border-teal-200',
+                                        'Validé administrativement' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
+                                        'Refusé' => 'bg-red-50 text-red-600 border-red-200',
+                                        'Documents complémentaires demandés' => 'bg-orange-50 text-orange-600 border-orange-200',
+                                        'Brouillon' => 'bg-slate-100 text-slate-500 border-slate-200',
+                                        'Archivé' => 'bg-slate-100 text-slate-500 border-slate-200',
+                                    ];
+                                    $statusClass = $statusColors[$permit->status?->nom] ?? 'bg-slate-100 text-slate-600 border-slate-200';
+                                @endphp
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border {{ $statusClass }}">
+                                    <span class="w-1.5 h-1.5 rounded-full" style="background-color: {{ $permit->status?->couleur ?? '#6c757d' }}"></span>
+                                    {{ $permit->status?->nom ?? '—' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="{{ route('permits.show', $permit->id) }}"
+                                   class="inline-flex items-center gap-1 p-2 text-[#006399] hover:bg-blue-50 rounded-lg transition-colors" title="عرض التفاصيل">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 border-t border-slate-100">
+                {{ $permits->links() }}
+            </div>
+        @else
+            <div class="p-16 text-center text-slate-400 space-y-4">
+                <svg class="w-14 h-14 mx-auto stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <p class="font-medium text-lg">لا توجد طلبات ترخيص حالياً</p>
+                @if(auth()->user()?->isCitoyen())
+                <a href="{{ route('permits.create') }}" class="inline-block text-sm text-[#006399] font-bold underline hover:text-blue-800">ابدأ بتقديم طلبك الأول</a>
+                @endif
+            </div>
+        @endif
     </div>
+
 </div>
 @endsection
