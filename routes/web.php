@@ -10,6 +10,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TechnicalReviewController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Services\AIService;
 
@@ -87,15 +88,39 @@ Route::middleware('auth')->group(function () {
 });
 
 // ====================== HANANE STATIC PREVIEW ROUTES ======================
-// Core Dashboard
-Route::get('/dashboard', function () { return view('statistics.dashboard'); })->name('dashboard');
+// Core Dashboard routing logic dynamically resolves authenticated persona dashboards
+Route::get('/dashboard', function () {
+    if (! Auth::check()) {
+        return view('statistics.dashboard');
+    }
 
-// Role-specific Dashboards previews
-Route::get('/dashboard/admin', function () { return view('dashboard.admin'); });
-Route::get('/dashboard/agent', function () { return view('dashboard.agent'); });
-Route::get('/dashboard/architect', function () { return view('dashboard.architect'); });
-Route::get('/dashboard/citizen', function () { return view('dashboard.citizen'); });
-Route::get('/dashboard/technical', function () { return view('dashboard.technical'); });
+    /** @var \App\Models\User $user */
+    $user = Auth::user();
+    $userRole = $user->role?->nom;
+    $mappedRole = match($userRole) {
+        'مواطن', 'ممثل الشخص المعنوي' => 'citoyen',
+        'مهندس معماري', 'مهندس مساح طوبوغرافي', 'مهندس مختص' => 'architecte',
+        'ممثل منعش عقاري', 'ممثل جماعة ترابية', 'عضو اللجنة', 'ممثل متعهد شركة الاتصالات', 'ممثل متعهد شركة شبكات الماء والكهرباء' => 'agent_urbanisme',
+        'administrateur' => 'administrateur',
+        default => 'citoyen',
+    };
+
+    return match($mappedRole) {
+        'citoyen' => app(DashboardController::class)->citizen(),
+        'architecte' => app(DashboardController::class)->architect(),
+        'agent_urbanisme' => app(DashboardController::class)->agent(),
+        'service_technique' => app(DashboardController::class)->technical(),
+        'administrateur' => app(DashboardController::class)->admin(),
+        default => view('statistics.dashboard'),
+    };
+})->name('dashboard');
+
+// Role-specific Dashboards dynamic integrations
+Route::get('/dashboard/admin', [DashboardController::class, 'admin']);
+Route::get('/dashboard/agent', [DashboardController::class, 'agent']);
+Route::get('/dashboard/architect', [DashboardController::class, 'architect']);
+Route::get('/dashboard/citizen', [DashboardController::class, 'citizen']);
+Route::get('/dashboard/technical', [DashboardController::class, 'technical']);
 
 // Permits previews
 Route::get('/permits', function () { return view('permits.index'); })->name('permits.index');

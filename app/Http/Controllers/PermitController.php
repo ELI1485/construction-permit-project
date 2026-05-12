@@ -66,10 +66,10 @@ class PermitController extends Controller
     public function store(Request $request, AIService $aiService)
     {
         // Support AI Test API endpoint (JSON POST to /permits)
-        if ($request->is('permits') || $request->expectsJson()) {
+        if ($request->expectsJson()) {
             $validated = $request->validate([
                 'permit_type' => 'required|string',
-                'surface' => 'required|numeric'
+                'surface' => 'required|numeric',
             ]);
 
             $uploadedDocs = ['cin'];
@@ -77,7 +77,7 @@ class PermitController extends Controller
             $aiResult = $aiService->validatePermit([
                 'surface' => $validated['surface'],
                 'permit_type' => $validated['permit_type'],
-                'uploaded_docs' => $uploadedDocs
+                'uploaded_docs' => $uploadedDocs,
             ]);
 
             $permit = Permit::create([
@@ -89,14 +89,22 @@ class PermitController extends Controller
                 'risk_level' => $aiResult['risk_level'] ?? null,
                 'ai_priority' => $aiResult['priority'] ?? null,
                 'technical_review_required' => $aiResult['technical_review_required'] ?? false,
-                'ai_recommendations' => $aiResult['recommendations'] ?? []
+                'ai_recommendations' => $aiResult['recommendations'] ?? [],
             ]);
 
             return response()->json([
                 'message' => 'Permit created successfully',
                 'permit' => $permit,
-                'ai_analysis' => $aiResult
+                'ai_analysis' => $aiResult,
             ]);
+        }
+
+        // Intercept unauthenticated web users to log in before creating DB record
+        if (! Auth::check()) {
+            session(['pending_permit' => $request->all()]);
+
+            return redirect()->route('login')
+                ->with('success', 'يرجى تسجيل الدخول أو إنشاء حساب جديد لإكمال تقديم طلب الترخيص ومتابعة حالته.');
         }
 
         // Standard Web form submission logic

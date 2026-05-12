@@ -76,13 +76,17 @@ class AuthController extends Controller
 
     private function redirectByRole(?string $role): string
     {
+        if (session()->has('pending_permit')) {
+            return route('permits.create');
+        }
+
         return match($role) {
-            'citoyen'           => route('citizen.dashboard'),
-            'architecte'        => route('architect.dashboard'),
-            'agent_urbanisme'   => route('agent.dashboard'),
+            'مواطن', 'ممثل الشخص المعنوي', 'citoyen' => route('citizen.dashboard'),
+            'مهندس معماري', 'مهندس مساح طوبوغرافي', 'مهندس مختص', 'architecte' => route('architect.dashboard'),
+            'ممثل منعش عقاري', 'ممثل جماعة ترابية', 'عضو اللجنة', 'ممثل متعهد شركة الاتصالات', 'ممثل متعهد شركة شبكات الماء والكهرباء', 'agent_urbanisme' => route('agent.dashboard'),
             'service_technique' => route('technical.dashboard'),
-            'administrateur'    => route('admin.dashboard'),
-            default             => route('login'),
+            'administrateur' => route('admin.dashboard'),
+            default => route('dashboard'),
         };
     }
 }

@@ -9,7 +9,13 @@ class PermitTypeSeeder extends Seeder
 {
     public function run(): void
     {
-        $types = ['Résidentiel', 'Commercial', 'Industriel', 'Agricole', 'Infrastructure'];
+        $types = [
+            'تراخيص المجال الاقتصادي',
+            'تراخيص مجال التعمير',
+            'تراخيص مجال الربط بالشبكات',
+            'الخدمات الإلكترونية متعددة الوظائف',
+        ];
+
         foreach ($types as $nom) {
             PermitType::firstOrCreate(['nom' => $nom]);
         }

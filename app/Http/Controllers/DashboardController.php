@@ -11,11 +11,11 @@ class DashboardController extends Controller
 {
     public function citizen()
     {
-        $user = Auth::user();
-        $totalPermits = Permit::where('citizen_id', $user->id)->count();
-        $pending = Permit::where('citizen_id', $user->id)
+        $userId = Auth::id() ?? 1;
+        $totalPermits = Permit::where('citizen_id', $userId)->count();
+        $pending = Permit::where('citizen_id', $userId)
                         ->whereHas('status', fn($q) => $q->where('nom', 'Soumis'))->count();
-        $recentPermits = Permit::where('citizen_id', $user->id)
+        $recentPermits = Permit::where('citizen_id', $userId)
                             ->with('status', 'permitType')
                             ->latest()->take(5)->get();
 
@@ -24,8 +24,8 @@ class DashboardController extends Controller
 
     public function architect()
     {
-        $user = Auth::user();
-        $permits = Permit::where('architect_id', $user->id)
+        $userId = Auth::id() ?? 1;
+        $permits = Permit::where('architect_id', $userId)
                         ->with('status', 'citizen', 'permitType')
                         ->latest()->paginate(10);
 

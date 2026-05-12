@@ -1,29 +1,137 @@
 @extends('layouts.app')
 
-@section('title', 'فضاء المواطن')
+@section('title', 'فضاء المواطن - رخص')
 
 @section('content')
-<div class="mb-8">
-    <h1 class="text-2xl font-bold text-slate-800 mb-1">فضاء المواطن</h1>
-    <p class="text-slate-500 text-sm">متابعة حالة طلباتك واستخراج التراخيص الجاهزة.</p>
-</div>
+<div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Top Greeting Banner matching Rokhas.ma exact layout -->
+    <div class="bg-gradient-to-l from-blue-50/50 via-white to-white rounded-3xl border border-blue-100/60 p-8 shadow-xs relative overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+            
+            <!-- Persona Illustration & Bubble -->
+            <div class="flex flex-col items-center md:items-start text-center md:text-right md:w-1/3 relative z-10">
+                <div class="bg-white px-6 py-3 rounded-2xl shadow-xs border border-blue-50 text-[#006399] font-bold text-lg mb-4 relative inline-block">
+                    بصفتي مواطن، يمكنني :
+                    <!-- Callout Tail -->
+                    <span class="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 md:left-8 w-4 h-4 bg-white border-b border-l border-blue-50 rotate-45"></span>
+                </div>
+                <!-- Premium High-Fidelity SVG Vector representing the user guide avatar -->
+                <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-blue-100 to-blue-50 flex items-center justify-center p-2 shadow-inner mx-auto md:mx-0 mt-2">
+                    <svg class="w-24 h-24 text-[#006399]" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4.5" fill="#006399" opacity="0.2"/>
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#006399"/>
+                    </svg>
+                </div>
+            </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-    <a href="/permits/create" class="bg-blue-600 text-white rounded-2xl p-6 shadow-sm shadow-blue-200 hover:bg-blue-700 transition-all flex flex-col items-center justify-center gap-3 h-32 group">
-        <svg class="w-8 h-8 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        <span class="font-bold">تقديم طلب ترخيص جديد</span>
-    </a>
-    <a href="/permits" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:border-blue-200 transition-all flex flex-col items-center justify-center gap-3 h-32 group">
-        <svg class="w-8 h-8 text-blue-600 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <span class="font-bold text-slate-700">تتبع طلباتي السابقة</span>
-    </a>
-</div>
+            <!-- Actionable Capabilities Checklist -->
+            <div class="md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700">
+                <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/40 transition-colors">
+                    <svg class="w-5 h-5 text-[#006399] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium leading-relaxed">معرفة خطوات الحصول على ترخيص، الوثائق المطلوبة، المشاركين...</span>
+                </div>
+                
+                <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/40 transition-colors">
+                    <svg class="w-5 h-5 text-[#006399] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium leading-relaxed">القيام بتقديم طلب رقمي للحصول على ترخيص في مجال التعمير أو المجال الاقتصادي</span>
+                </div>
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-    <h3 class="text-lg font-bold text-slate-800 mb-4">آخر التحديثات</h3>
-    <div class="space-y-4">
-        @include('components.alerts', ['type' => 'success', 'message' => 'تم إصدار رخصة البناء الخاصة بك. يمكنك تحميلها الآن.'])
-        @include('components.alerts', ['type' => 'warning', 'message' => 'هناك فاتورة مستحقة الدفع لطلبك رقم #REQ-2026-005.'])
+                <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/40 transition-colors">
+                    <svg class="w-5 h-5 text-[#006399] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium leading-relaxed">تتبع تقدم الإجراء عبر المنصة وتلقي إشعار في كل مرحلة مهمة</span>
+                </div>
+
+                <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/40 transition-colors">
+                    <svg class="w-5 h-5 text-[#006399] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium leading-relaxed">استكشاف البواب الجغرافية للرخص الممنوحة في نطاق جغرافي معين</span>
+                </div>
+
+                <div class="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/40 transition-colors md:col-span-2">
+                    <svg class="w-5 h-5 text-[#006399] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium leading-relaxed">تقديم التعرضات بشأن الملفات قيد الترخيص والتي تخضع لبحث المنافع والمضار</span>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="{{ route('permits.create') }}" class="group bg-[#006399] text-white rounded-2xl p-6 shadow-md shadow-blue-200 hover:bg-[#005180] transition-all flex items-center justify-between">
+            <div class="space-y-1">
+                <span class="block text-lg font-bold">تقديم طلب ترخيص جديد</span>
+                <span class="block text-xs text-blue-100">إيداع ملف التعمير أو الرخص الاقتصادية وإرفاق الوثائق المطلوبة</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            </div>
+        </a>
+
+        <a href="{{ route('permits.index') }}" class="group bg-white border border-slate-200 rounded-2xl p-6 shadow-xs hover:border-[#006399] transition-all flex items-center justify-between">
+            <div class="space-y-1">
+                <span class="block text-lg font-bold text-[#006399]">تتبع طلباتي السابقة</span>
+                <span class="block text-xs text-slate-500">معاينة تقدم معالجة الملفات واللجان المنعقدة واستخراج التراخيص</span>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#006399] group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            </div>
+        </a>
+    </div>
+
+    <!-- Active Applications List Table -->
+    <div class="bg-white rounded-2xl shadow-xs border border-slate-100 overflow-hidden">
+        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="font-bold text-slate-800 text-lg">ملفاتي الحالية قيد التتبع</h3>
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-600">{{ $recentPermits->count() ?? 0 }} طلبات أخيرة</span>
+        </div>
+        
+        @if(isset($recentPermits) && $recentPermits->count() > 0)
+            <div class="overflow-x-auto">
+                <table class="w-full text-right border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-400 text-xs font-bold border-b border-slate-100">
+                            <th class="p-4">رقم الملف</th>
+                            <th class="p-4">نوع الترخيص</th>
+                            <th class="p-4">عنوان المشروع</th>
+                            <th class="p-4">المساحة</th>
+                            <th class="p-4">تاريخ الإيداع</th>
+                            <th class="p-4">الحالة</th>
+                            <th class="p-4 text-center">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-slate-50">
+                        @foreach($recentPermits as $permit)
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="p-4 font-bold text-[#006399]">{{ $permit->reference_number ?? 'PC-'.rand(1000,9999) }}</td>
+                                <td class="p-4 text-slate-700 font-medium">{{ $permit->permitType?->nom ?? $permit->permit_type ?? 'رخصة بناء' }}</td>
+                                <td class="p-4 text-slate-500 max-w-xs truncate">{{ $permit->project_address ?? 'غير محدد' }}</td>
+                                <td class="p-4 text-slate-600">{{ $permit->surface ?? 0 }} م²</td>
+                                <td class="p-4 text-slate-500 text-xs">{{ $permit->created_at?->format('Y-m-d') ?? now()->format('Y-m-d') }}</td>
+                                <td class="p-4">
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold 
+                                        @if(($permit->status?->nom ?? $permit->status) == 'Soumis' || ($permit->status?->nom ?? $permit->status) == 'submitted') bg-amber-50 text-amber-600 border border-amber-200/60
+                                        @elseif(($permit->status?->nom ?? $permit->status) == 'Validé' || ($permit->status?->nom ?? $permit->status) == 'approved') bg-emerald-50 text-emerald-600 border border-emerald-200/60
+                                        @else bg-blue-50 text-[#006399] border border-blue-200/60 @endif">
+                                        {{ $permit->status?->nom ?? $permit->status ?? 'قيد المعالجة' }}
+                                    </span>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <a href="{{ url('/permits/show?id=' . ($permit->id ?? 1)) }}" class="text-xs text-[#006399] hover:underline font-bold">عرض التفاصيل</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="p-12 text-center text-slate-400 space-y-3">
+                <svg class="w-12 h-12 mx-auto stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <p>لا توجد طلبات ترخيص مسجلة حالياً في حسابك</p>
+                <a href="{{ route('permits.create') }}" class="inline-block text-xs text-[#006399] font-bold underline hover:text-blue-800">ابدأ بتقديم طلبك الأول من هنا</a>
+            </div>
+        @endif
+    </div>
+
 </div>
 @endsection

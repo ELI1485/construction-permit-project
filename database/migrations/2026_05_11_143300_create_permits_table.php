@@ -1,10 +1,13 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    public function up(): void
+    {
         Schema::create('permits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('permit_type_id')->constrained('permit_types')->onDelete('cascade');
@@ -26,5 +29,9 @@ return new class extends Migration {
             $table->timestamps();
         });
     }
-    public function down(): void { Schema::dropIfExists('permits'); }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('permits');
+    }
 };
