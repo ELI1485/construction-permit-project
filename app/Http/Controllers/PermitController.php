@@ -154,7 +154,7 @@ class PermitController extends Controller
             ->with('success', 'Dossier soumis avec succès !');
     }
 
-    public function show($id)
+    public function show(string $id)
     {
         $permit = Permit::with(['documents', 'histories.changedBy', 'status', 'permitType', 'citizen', 'technicalReviews'])
             ->findOrFail($id);
@@ -162,7 +162,7 @@ class PermitController extends Controller
         return view('permits.show', compact('permit'));
     }
 
-    public function validatePermit($id)
+    public function validatePermit(string $id)
     {
         $permit = Permit::findOrFail($id);
         $status = Status::where('nom', 'Validé administrativement')->firstOrFail();
@@ -174,7 +174,7 @@ class PermitController extends Controller
         return back()->with('success', 'Permis validé avec succès.');
     }
 
-    public function rejectPermit(Request $request, $id)
+    public function rejectPermit(Request $request, string $id)
     {
         $permit = Permit::findOrFail($id);
         $status = Status::where('nom', 'Refusé')->firstOrFail();
@@ -186,7 +186,7 @@ class PermitController extends Controller
         return back()->with('success', 'Dossier refusé.');
     }
 
-    public function requestDocs(Request $request, $id)
+    public function requestDocs(Request $request, string $id)
     {
         $permit = Permit::findOrFail($id);
         $status = Status::where('nom', 'Documents complémentaires demandés')->firstOrFail();

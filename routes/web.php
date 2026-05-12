@@ -135,3 +135,4 @@ Route::get('/statistics', function () { return view('statistics.dashboard'); })-
 
 // AI Test Endpoint
 Route::post('/permits', [PermitController::class, 'store']);
+
