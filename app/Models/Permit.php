@@ -10,7 +10,7 @@ class Permit extends Model
         'permit_type_id', 'citizen_id', 'architect_id', 'status_id', 'district_id',
         'reference_number', 'project_title', 'project_address', 'surface', 'priority',
         'submitted_at', 'risk_score', 'risk_level', 'ai_priority', 'technical_review_required',
-        'ai_recommendations',
+        'ai_recommendations', 'user_id', 'permit_type', 'status'
     ];
 
     protected $casts = [

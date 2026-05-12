@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\District;
 use App\Models\Document;
 use App\Models\Permit;
@@ -11,11 +12,18 @@ use App\Models\User;
 use App\Services\AIService;
 use App\Services\NotificationService;
 use App\Services\WorkflowService;
+=======
+>>>>>>> origin/maroua-ai
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Permit;
+
+use App\Services\AIService;
+
 class PermitController extends Controller
 {
+<<<<<<< HEAD
     public function citizenIndex()
     {
         $permits = Permit::where('citizen_id', Auth::id())
@@ -161,5 +169,67 @@ class PermitController extends Controller
             "Veuillez ajouter les documents demandés pour le dossier #{$permit->reference_number}.");
 
         return back()->with('success', 'Demande envoyée au citoyen.');
+=======
+    public function store(
+        Request $request,
+        AIService $aiService
+    )
+    {
+
+        $validated = $request->validate([
+
+            'permit_type' => 'required|string',
+
+            'surface' => 'required|numeric'
+        ]);
+
+        $uploadedDocs = [
+
+            'cin'
+        ];
+
+        $aiResult = $aiService->validatePermit([
+
+            'surface' => $validated['surface'],
+
+            'permit_type' => $validated['permit_type'],
+
+            'uploaded_docs' => $uploadedDocs
+        ]);
+
+        $permit = Permit::create([
+
+            'user_id' => 1,
+
+            'permit_type' => $validated['permit_type'],
+
+            'surface' => $validated['surface'],
+
+            'status' => 'submitted',
+
+            'risk_score' => $aiResult['risk_score'],
+
+            'risk_level' => $aiResult['risk_level'],
+
+            'ai_priority' => $aiResult['priority'],
+
+            'technical_review_required' => $aiResult[
+                'technical_review_required'
+            ],
+
+            'ai_recommendations' => $aiResult[
+                'recommendations'
+            ]
+        ]);
+
+        return response()->json([
+
+            'message' => 'Permit created successfully',
+
+            'permit' => $permit,
+
+            'ai_analysis' => $aiResult
+        ]);
+>>>>>>> origin/maroua-ai
     }
 }

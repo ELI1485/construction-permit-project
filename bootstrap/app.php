@@ -18,6 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => CheckRole::class,
             'auth.api' => AuthenticateApiToken::class,
         ]);
+
+        $middleware->validateCsrfTokens(
+            except: [
+                'permits',
+                'citizen/permits'
+            ]
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

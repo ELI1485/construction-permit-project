@@ -11,6 +11,7 @@ use App\Http\Controllers\PermitController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TechnicalReviewController;
 use Illuminate\Support\Facades\Route;
+use App\Services\AIService;
 
 Route::get('/', fn () => view('welcome'));
 
@@ -132,3 +133,5 @@ Route::get('/settings', function () { return view('settings.index'); })->name('s
 // Statistics (الإحصائيات)
 Route::get('/statistics', function () { return view('statistics.dashboard'); })->name('statistics.index');
 
+// AI Test Endpoint
+Route::post('/permits', [PermitController::class, 'store']);

@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Http;
 
 class AIService
 {
+    protected $baseUrl;
+
+    public function __construct()
+    {
+        $this->baseUrl = env('AI_SERVICE_URL', 'http://127.0.0.1:8001');
+    }
+
     public static function analyze(Permit $permit): array
     {
         $uploadedDocs = $permit->documents->pluck('file_name')->toArray();
@@ -35,5 +42,25 @@ class AIService
         }
 
         return [];
+    }
+
+    public function validatePermit($data)
+    {
+        try {
+            $response = Http::timeout(10)->post(
+                $this->baseUrl . '/validate',
+                $data
+            );
+
+            return $response->json();
+        } catch (\Exception $e) {
+            return [
+                'risk_score' => 0,
+                'risk_level' => 'low',
+                'priority' => 'normal',
+                'technical_review_required' => false,
+                'recommendations' => []
+            ];
+        }
     }
 }
