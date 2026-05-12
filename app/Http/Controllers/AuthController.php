@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\District;
@@ -16,12 +18,8 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
         $user = User::with('role')->where('email', $request->email)->first();
 
@@ -40,17 +38,8 @@ class AuthController extends Controller
         return view('auth.register', compact('roles', 'districts'));
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'nom'         => 'required|string|max:100',
-            'prenom'      => 'required|string|max:100',
-            'email'       => 'required|email|unique:users',
-            'password'    => 'required|min:6|confirmed',
-            'cin'         => 'required|string|unique:users',
-            'role_id'     => 'required|exists:roles,id',
-            'district_id' => 'required|exists:districts,id',
-        ]);
 
         $user = User::create([
             'nom'         => $request->nom,

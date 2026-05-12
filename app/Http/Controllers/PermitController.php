@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PermitRequest;
 use App\Models\District;
 use App\Models\Document;
 use App\Models\Permit;
@@ -63,16 +64,8 @@ class PermitController extends Controller
         return view('permits.create', compact('permitTypes', 'districts'));
     }
 
-    public function store(Request $request)
+    public function store(PermitRequest $request)
     {
-        $request->validate([
-            'permit_type_id' => 'required|exists:permit_types,id',
-            'district_id' => 'required|exists:districts,id',
-            'project_title' => 'required|string|max:255',
-            'project_address' => 'required|string',
-            'surface' => 'required|numeric|min:1',
-            'documents.*' => 'nullable|file|max:10240|mimes:pdf,jpg,jpeg,png',
-        ]);
 
         $status = Status::where('nom', 'Soumis')->firstOrFail();
 

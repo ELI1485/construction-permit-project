@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             DistrictSeeder::class,
             StatusSeeder::class,
             PermitTypeSeeder::class,
+            DocumentTypeSeeder::class,
             UserSeeder::class,
         ]);
     }
