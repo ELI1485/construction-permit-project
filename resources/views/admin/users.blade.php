@@ -3,60 +3,58 @@
 @section('page-title', 'Utilisateurs')
 
 @section('content')
-<div class="space-y-6">
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-base font-semibold text-navy-800">Liste des utilisateurs</h3>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+        <h6 class="mb-0 fw-bold">Liste des utilisateurs</h6>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="usersTable">
+                <thead class="table-light">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CIN</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôle</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">District</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th>Utilisateur</th>
+                        <th>Email</th>
+                        <th>CIN</th>
+                        <th>Rôle</th>
+                        <th>District</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse ($users as $user)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-navy-800 text-white text-xs font-bold">
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:32px;height:32px;font-size:0.75rem;font-weight:700;">
                                         {{ strtoupper(substr($user->prenom ?? 'U', 0, 1)) }}{{ strtoupper(substr($user->nom ?? '', 0, 1)) }}
                                     </div>
-                                    <span class="text-sm font-medium text-gray-900">{{ $user->prenom }} {{ $user->nom }}</span>
+                                    <span class="fw-medium">{{ $user->prenom }} {{ $user->nom }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->cin }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <form method="POST" action="/admin/users/{{ $user->id }}/role" class="flex items-center gap-2">
+                            <td class="text-muted small">{{ $user->email }}</td>
+                            <td class="small">{{ $user->cin }}</td>
+                            <td>
+                                <form method="POST" action="/admin/users/{{ $user->id }}/role" class="d-inline">
                                     @csrf
-                                    <select name="role_id" onchange="this.form.submit()" class="rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-navy-800 focus:ring-1 focus:ring-navy-800 focus:outline-none">
+                                    <select name="role_id" onchange="this.form.submit()" class="form-select form-select-sm" style="width:auto;">
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>{{ ucfirst(str_replace('_', ' ', $role->nom)) }}</option>
                                         @endforeach
                                     </select>
                                 </form>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->district?->nom ?? '—' }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">—</td>
+                            <td class="text-muted small">{{ $user->district?->nom ?? '—' }}</td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-sm text-gray-500">Aucun utilisateur.</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
-        @if ($users->hasPages())
-            <div class="px-6 py-4 border-t border-gray-100">{{ $users->links() }}</div>
-        @endif
     </div>
+    @if ($users->hasPages())
+        <div class="card-footer bg-white">{{ $users->links() }}</div>
+    @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>$(document).ready(function() { $('#usersTable').DataTable({ language: { url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json' }, paging: false, info: false }); });</script>
+@endpush

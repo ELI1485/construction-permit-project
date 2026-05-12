@@ -3,98 +3,94 @@
 @section('page-title', 'Nouvelle Demande')
 
 @section('content')
-<div class="max-w-3xl">
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-base font-semibold text-navy-800">Soumettre une demande de permis de construire</h3>
-            <p class="text-sm text-gray-500 mt-1">Remplissez tous les champs obligatoires et joignez les documents nécessaires.</p>
-        </div>
-
-        <form method="POST" action="{{ route('citizen.permits.store') }}" enctype="multipart/form-data" class="p-6 space-y-6">
-            @csrf
-
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {{-- Permit type --}}
-                <div>
-                    <label for="permit_type_id" class="block text-sm font-medium text-gray-700 mb-1">Type de permis <span class="text-red-500">*</span></label>
-                    <select id="permit_type_id" name="permit_type_id" required
-                        class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none sm:text-sm">
-                        <option value="">Sélectionner...</option>
-                        @foreach ($permitTypes as $type)
-                            <option value="{{ $type->id }}" {{ old('permit_type_id') == $type->id ? 'selected' : '' }}>{{ $type->nom }}</option>
-                        @endforeach
-                    </select>
-                    @error('permit_type_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-
-                {{-- District --}}
-                <div>
-                    <label for="district_id" class="block text-sm font-medium text-gray-700 mb-1">District <span class="text-red-500">*</span></label>
-                    <select id="district_id" name="district_id" required
-                        class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none sm:text-sm">
-                        <option value="">Sélectionner...</option>
-                        @foreach ($districts as $district)
-                            <option value="{{ $district->id }}" {{ old('district_id') == $district->id ? 'selected' : '' }}>{{ $district->nom }}</option>
-                        @endforeach
-                    </select>
-                    @error('district_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-file-earmark-plus me-2"></i>Soumettre une demande de permis de construire</h6>
             </div>
+            <div class="card-body">
+                <form method="POST" action="{{ route('citizen.permits.store') }}" enctype="multipart/form-data">
+                    @csrf
 
-            {{-- Project title --}}
-            <div>
-                <label for="project_title" class="block text-sm font-medium text-gray-700 mb-1">Titre du projet <span class="text-red-500">*</span></label>
-                <input type="text" id="project_title" name="project_title" value="{{ old('project_title') }}" required
-                    class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none sm:text-sm"
-                    placeholder="Ex: Construction d'une villa R+1">
-                @error('project_title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-            {{-- Address --}}
-            <div>
-                <label for="project_address" class="block text-sm font-medium text-gray-700 mb-1">Adresse du projet <span class="text-red-500">*</span></label>
-                <textarea id="project_address" name="project_address" rows="2" required
-                    class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none sm:text-sm"
-                    placeholder="Adresse complète du terrain">{{ old('project_address') }}</textarea>
-                @error('project_address') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-            {{-- Surface --}}
-            <div class="max-w-xs">
-                <label for="surface" class="block text-sm font-medium text-gray-700 mb-1">Surface (m²) <span class="text-red-500">*</span></label>
-                <input type="number" id="surface" name="surface" value="{{ old('surface') }}" required min="1" step="0.01"
-                    class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none sm:text-sm"
-                    placeholder="150">
-                @error('surface') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-            {{-- Documents --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Documents (PDF, JPG, PNG)</label>
-                <div class="mt-1 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-8 hover:border-navy-400 transition">
-                    <div class="text-center">
-                        <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/></svg>
-                        <div class="mt-3">
-                            <label for="documents" class="cursor-pointer rounded-md font-semibold text-navy-800 hover:text-gold-600">
-                                <span>Choisir des fichiers</span>
-                                <input id="documents" name="documents[]" type="file" class="sr-only" multiple accept=".pdf,.jpg,.jpeg,.png">
-                            </label>
+                    <div class="row g-3">
+                        <!-- Permit Type -->
+                        <div class="col-md-6">
+                            <label for="permit_type_id" class="form-label fw-medium">Type de permis <span class="text-danger">*</span></label>
+                            <select class="form-select" id="permit_type_id" name="permit_type_id" required>
+                                <option value="">Sélectionner...</option>
+                                @foreach ($permitTypes as $type)
+                                    <option value="{{ $type->id }}" {{ old('permit_type_id') == $type->id ? 'selected' : '' }}>{{ $type->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('permit_type_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
                         </div>
-                        <p class="text-xs text-gray-500 mt-2">PDF, JPG, PNG jusqu'à 10MB</p>
-                    </div>
-                </div>
-                @error('documents.*') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-            </div>
 
-            {{-- Submit --}}
-            <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-100">
-                <a href="{{ route('citizen.permits') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition">Annuler</a>
-                <button type="submit" class="inline-flex items-center rounded-lg bg-navy-800 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy-700 transition">
-                    <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
-                    Soumettre la demande
-                </button>
+                        <!-- District -->
+                        <div class="col-md-6">
+                            <label for="district_id" class="form-label fw-medium">District <span class="text-danger">*</span></label>
+                            <select class="form-select" id="district_id" name="district_id" required>
+                                <option value="">Sélectionner...</option>
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district->id }}" {{ old('district_id') == $district->id ? 'selected' : '' }}>{{ $district->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('district_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+
+                        <!-- Project Title -->
+                        <div class="col-12">
+                            <label for="project_title" class="form-label fw-medium">Titre du projet <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="project_title" name="project_title" value="{{ old('project_title') }}" required placeholder="Ex: Construction d'une villa R+1">
+                            @error('project_title') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-12">
+                            <label for="project_address" class="form-label fw-medium">Adresse du projet <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="project_address" name="project_address" rows="2" required placeholder="Adresse complète du terrain">{{ old('project_address') }}</textarea>
+                            @error('project_address') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+
+                        <!-- Surface -->
+                        <div class="col-md-4">
+                            <label for="surface" class="form-label fw-medium">Surface (m²) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="surface" name="surface" value="{{ old('surface') }}" required min="1" step="0.01" placeholder="150">
+                            @error('surface') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+
+                        <!-- Documents Upload -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Documents justificatifs</label>
+                            <div class="border rounded p-4 text-center bg-light">
+                                <i class="bi bi-cloud-arrow-up fs-1 text-muted"></i>
+                                <p class="text-muted small mb-2 mt-2">Glissez vos fichiers ici ou cliquez pour sélectionner</p>
+                                <input type="file" class="form-control" name="documents[]" multiple accept=".pdf,.jpg,.jpeg,.png">
+                                <p class="text-muted small mt-2 mb-0">PDF, JPG, PNG — Max 10 MB par fichier</p>
+                            </div>
+                            @error('documents.*') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                        </div>
+
+                        <!-- Info box -->
+                        <div class="col-12">
+                            <div class="alert alert-info small mb-0">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <strong>Documents requis :</strong> CIN, Plan architectural, Titre foncier, Plan de situation, Quittance fiscale.
+                                L'analyse IA évaluera automatiquement votre dossier après soumission.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                        <a href="{{ route('citizen.permits') }}" class="btn btn-outline-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-navy">
+                            <i class="bi bi-send me-2"></i>Soumettre la demande
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 @endsection

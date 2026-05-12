@@ -3,73 +3,96 @@
 @section('page-title', 'Dossiers de Permis')
 
 @section('content')
-<div class="space-y-6">
-    {{-- Filter / actions header --}}
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        @if(isset($statuses))
-            <form method="GET" class="flex items-center gap-3">
-                <select name="status" onchange="this.form.submit()" class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none">
-                    <option value="">Tous les statuts</option>
-                    @foreach($statuses as $status)
-                        <option value="{{ $status->nom }}" {{ request('status') === $status->nom ? 'selected' : '' }}>{{ $status->nom }}</option>
-                    @endforeach
-                </select>
-            </form>
-        @else
-            <div></div>
-        @endif
+<!-- Filter & Actions -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    @if(isset($statuses))
+        <form method="GET" class="d-flex align-items-center gap-2">
+            <select name="status" class="form-select form-select-sm" onchange="this.form.submit()" style="width:auto;">
+                <option value="">Tous les statuts</option>
+                @foreach($statuses as $status)
+                    <option value="{{ $status->nom }}" {{ request('status') === $status->nom ? 'selected' : '' }}>{{ $status->nom }}</option>
+                @endforeach
+            </select>
+        </form>
+    @else
+        <div></div>
+    @endif
 
-        @if(auth()->user()->isCitoyen())
-            <a href="{{ route('citizen.permits.create') }}" class="inline-flex items-center rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy-700 transition">
-                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                Nouvelle demande
-            </a>
-        @endif
-    </div>
+    @if(auth()->user()->isCitoyen())
+        <a href="{{ route('citizen.permits.create') }}" class="btn btn-navy">
+            <i class="bi bi-plus-circle me-2"></i>Nouvelle demande
+        </a>
+    @endif
+</div>
 
-    {{-- Table --}}
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+<!-- Permits Table -->
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="permitsTable">
+                <thead class="table-light">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Référence</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Projet</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th>Référence</th>
+                        <th>Projet</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Risque IA</th>
+                        <th>Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody>
                     @forelse ($permits as $permit)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-navy-800">{{ $permit->reference_number }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ Str::limit($permit->project_title, 35) }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $permit->permitType?->nom }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium" style="background-color: {{ $permit->status?->couleur }}20; color: {{ $permit->status?->couleur }};">
+                        <tr>
+                            <td class="fw-medium">{{ $permit->reference_number }}</td>
+                            <td>{{ Str::limit($permit->project_title, 30) }}</td>
+                            <td><span class="badge bg-light text-dark">{{ $permit->permitType?->nom }}</span></td>
+                            <td>
+                                <span class="badge-status" style="background-color: {{ $permit->status?->couleur }}20; color: {{ $permit->status?->couleur }};">
                                     {{ $permit->status?->nom }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $permit->submitted_at?->format('d/m/Y') ?? $permit->created_at->format('d/m/Y') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                <a href="{{ route('citizen.permits.show', $permit->id) }}" class="text-navy-800 hover:text-gold-600 font-medium">Voir détails</a>
+                            <td>
+                                @if($permit->risk_level === 'Critical')
+                                    <span class="badge bg-danger">Critique</span>
+                                @elseif($permit->risk_level === 'High')
+                                    <span class="badge bg-danger">Élevé</span>
+                                @elseif($permit->risk_level === 'Medium')
+                                    <span class="badge bg-warning text-dark">Moyen</span>
+                                @elseif($permit->risk_level)
+                                    <span class="badge bg-success">Faible</span>
+                                @else
+                                    <span class="badge bg-secondary">N/A</span>
+                                @endif
+                            </td>
+                            <td class="text-muted small">{{ $permit->submitted_at?->format('d/m/Y') ?? $permit->created_at->format('d/m/Y') }}</td>
+                            <td>
+                                <a href="{{ route('citizen.permits.show', $permit->id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-sm text-gray-500">
-                                Aucun dossier trouvé.
-                            </td>
-                        </tr>
+                        <tr><td colspan="7" class="text-center py-5 text-muted">Aucun dossier trouvé.</td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-        @if ($permits->hasPages())
-            <div class="px-6 py-4 border-t border-gray-100">{{ $permits->links() }}</div>
-        @endif
     </div>
+    @if ($permits->hasPages())
+        <div class="card-footer bg-white">{{ $permits->links() }}</div>
+    @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#permitsTable').DataTable({
+            language: { url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json' },
+            pageLength: 15,
+            order: [[5, 'desc']],
+            paging: false,
+            info: false,
+        });
+    });
+</script>
+@endpush

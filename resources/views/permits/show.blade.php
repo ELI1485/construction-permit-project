@@ -3,188 +3,233 @@
 @section('page-title', 'Dossier ' . $permit->reference_number)
 
 @section('content')
-<div class="space-y-6">
-    {{-- Header info --}}
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <div>
-                <h3 class="text-lg font-semibold text-navy-800">{{ $permit->project_title }}</h3>
-                <p class="text-sm text-gray-500">Réf: {{ $permit->reference_number }}</p>
+<div class="row g-4">
+    <!-- Main Info -->
+    <div class="col-lg-8">
+        <!-- Permit Details -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold">{{ $permit->project_title }}</h6>
+                <span class="badge-status fs-6" style="background-color: {{ $permit->status?->couleur }}20; color: {{ $permit->status?->couleur }};">
+                    {{ $permit->status?->nom }}
+                </span>
             </div>
-            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium" style="background-color: {{ $permit->status?->couleur }}20; color: {{ $permit->status?->couleur }};">
-                {{ $permit->status?->nom }}
-            </span>
-        </div>
-        <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase">Type</p>
-                <p class="mt-1 text-sm font-medium text-gray-900">{{ $permit->permitType?->nom }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase">Citoyen</p>
-                <p class="mt-1 text-sm font-medium text-gray-900">{{ $permit->citizen?->prenom }} {{ $permit->citizen?->nom }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase">Surface</p>
-                <p class="mt-1 text-sm font-medium text-gray-900">{{ $permit->surface }} m²</p>
-            </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase">Adresse</p>
-                <p class="mt-1 text-sm font-medium text-gray-900">{{ $permit->project_address }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase">Date de soumission</p>
-                <p class="mt-1 text-sm font-medium text-gray-900">{{ $permit->submitted_at?->format('d/m/Y H:i') }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-medium text-gray-500 uppercase">Niveau de risque</p>
-                <p class="mt-1">
-                    @if($permit->risk_level === 'High')
-                        <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">Élevé</span>
-                    @elseif($permit->risk_level === 'Medium')
-                        <span class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800">Moyen</span>
-                    @else
-                        <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">{{ $permit->risk_level ?? 'N/A' }}</span>
-                    @endif
-                </p>
-            </div>
-        </div>
-    </div>
-
-
-    {{-- Agent actions --}}
-    @if(auth()->user()->isAgent())
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-base font-semibold text-navy-800">Actions Agent</h3>
-        </div>
-        <div class="p-6 flex flex-wrap gap-3">
-            <form method="POST" action="/agent/permits/{{ $permit->id }}/validate" class="inline">
-                @csrf
-                <button type="submit" class="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 transition">
-                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                    Valider
-                </button>
-            </form>
-            <form method="POST" action="/agent/permits/{{ $permit->id }}/reject" class="inline" x-data="{ showComment: false }">
-                @csrf
-                <button type="button" @click="showComment = !showComment" class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition">
-                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                    Refuser
-                </button>
-                <div x-show="showComment" x-cloak class="mt-3 flex gap-2">
-                    <input type="text" name="commentaire" placeholder="Motif du refus..." class="rounded-lg border border-gray-300 px-3 py-2 text-sm flex-1 focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none">
-                    <button type="submit" class="rounded-lg bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700">Confirmer</button>
-                </div>
-            </form>
-            <form method="POST" action="/agent/permits/{{ $permit->id }}/request-docs" class="inline" x-data="{ showComment: false }">
-                @csrf
-                <button type="button" @click="showComment = !showComment" class="inline-flex items-center rounded-lg bg-yellow-500 px-4 py-2 text-sm font-semibold text-navy-900 hover:bg-yellow-400 transition">
-                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-                    Demander docs
-                </button>
-                <div x-show="showComment" x-cloak class="mt-3 flex gap-2">
-                    <input type="text" name="commentaire" placeholder="Documents requis..." class="rounded-lg border border-gray-300 px-3 py-2 text-sm flex-1 focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none">
-                    <button type="submit" class="rounded-lg bg-yellow-500 px-3 py-2 text-sm text-navy-900 hover:bg-yellow-400">Envoyer</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    @endif
-
-    {{-- Technical review form --}}
-    @if(auth()->user()->isTechnical())
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-base font-semibold text-navy-800">Révision Technique</h3>
-        </div>
-        <form method="POST" action="/technical/permits/{{ $permit->id }}/review" class="p-6 space-y-4">
-            @csrf
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Conformité</label>
-                <div class="flex gap-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="conformite" value="1" class="h-4 w-4 text-navy-800 border-gray-300 focus:ring-navy-800">
-                        <span class="text-sm text-gray-700">Conforme</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="conformite" value="0" class="h-4 w-4 text-red-600 border-gray-300 focus:ring-red-500">
-                        <span class="text-sm text-gray-700">Non conforme</span>
-                    </label>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Type</div>
+                        <div class="fw-medium">{{ $permit->permitType?->nom }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Citoyen</div>
+                        <div class="fw-medium">{{ $permit->citizen?->prenom }} {{ $permit->citizen?->nom }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Surface</div>
+                        <div class="fw-medium">{{ $permit->surface }} m²</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Adresse</div>
+                        <div class="fw-medium">{{ $permit->project_address }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Date de soumission</div>
+                        <div class="fw-medium">{{ $permit->submitted_at?->format('d/m/Y H:i') }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Référence</div>
+                        <div class="fw-medium font-monospace">{{ $permit->reference_number }}</div>
+                    </div>
                 </div>
             </div>
-            <div>
-                <label for="remarque" class="block text-sm font-medium text-gray-700 mb-1">Remarques</label>
-                <textarea id="remarque" name="remarque" rows="3" class="block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-900 shadow-sm focus:border-navy-800 focus:ring-2 focus:ring-navy-800/20 focus:outline-none sm:text-sm" placeholder="Observations techniques..."></textarea>
-            </div>
-            <button type="submit" class="inline-flex items-center rounded-lg bg-navy-800 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy-700 transition">Soumettre la révision</button>
-        </form>
-    </div>
-    @endif
-
-
-    {{-- Documents --}}
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h3 class="text-base font-semibold text-navy-800">Documents</h3>
         </div>
-        <div class="p-6">
-            @if($permit->documents->count())
-                <ul class="divide-y divide-gray-100">
-                    @foreach($permit->documents as $doc)
-                        <li class="flex items-center justify-between py-3">
-                            <div class="flex items-center gap-3">
-                                <svg class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">{{ $doc->file_name }}</p>
-                                    <p class="text-xs text-gray-500">Ajouté le {{ $doc->uploaded_at?->format('d/m/Y') }}</p>
+
+        <!-- AI Analysis Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-robot me-2"></i>Analyse IA</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <div class="text-muted small text-uppercase">Score de Risque</div>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <div class="progress flex-grow-1" style="height: 8px;">
+                                <div class="progress-bar {{ $permit->risk_score >= 70 ? 'bg-danger' : ($permit->risk_score >= 40 ? 'bg-warning' : 'bg-success') }}" style="width: {{ $permit->risk_score ?? 0 }}%;"></div>
+                            </div>
+                            <span class="fw-bold small">{{ $permit->risk_score ?? 'N/A' }}/100</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="text-muted small text-uppercase">Niveau de Risque</div>
+                        <div class="mt-1">
+                            @if($permit->risk_level === 'Critical')
+                                <span class="badge bg-danger">Critique</span>
+                            @elseif($permit->risk_level === 'High')
+                                <span class="badge bg-danger">Élevé</span>
+                            @elseif($permit->risk_level === 'Medium')
+                                <span class="badge bg-warning text-dark">Moyen</span>
+                            @else
+                                <span class="badge bg-success">{{ $permit->risk_level ?? 'N/A' }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="text-muted small text-uppercase">Priorité IA</div>
+                        <div class="fw-medium mt-1">{{ $permit->ai_priority ?? 'Non évalué' }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-muted small text-uppercase">Révision technique</div>
+                        <div class="mt-1">
+                            @if($permit->technical_review_required)
+                                <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle me-1"></i>Requise</span>
+                            @else
+                                <span class="badge bg-success"><i class="bi bi-check me-1"></i>Non requise</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                @if($permit->ai_recommendations && count($permit->ai_recommendations) > 0)
+                    <hr>
+                    <div class="text-muted small text-uppercase mb-2">Recommandations IA</div>
+                    <ul class="list-unstyled mb-0">
+                        @foreach($permit->ai_recommendations as $rec)
+                            <li class="d-flex align-items-start gap-2 mb-2">
+                                <i class="bi bi-lightbulb text-warning mt-1"></i>
+                                <span class="small">{{ $rec }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        </div>
+
+        <!-- Agent Actions -->
+        @if(auth()->user()->isAgent())
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-gear me-2"></i>Actions Agent</h6>
+            </div>
+            <div class="card-body d-flex flex-wrap gap-2">
+                <form method="POST" action="/agent/permits/{{ $permit->id }}/validate" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Valider</button>
+                </form>
+                <form method="POST" action="/agent/permits/{{ $permit->id }}/reject" class="d-inline">
+                    @csrf
+                    <input type="hidden" name="commentaire" value="Refusé par agent">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg me-1"></i>Refuser</button>
+                </form>
+                <form method="POST" action="/agent/permits/{{ $permit->id }}/request-docs" class="d-inline">
+                    @csrf
+                    <input type="hidden" name="commentaire" value="Documents complémentaires requis">
+                    <button type="submit" class="btn btn-warning"><i class="bi bi-paperclip me-1"></i>Demander docs</button>
+                </form>
+            </div>
+        </div>
+        @endif
+
+        <!-- Technical Review -->
+        @if(auth()->user()->isTechnical())
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-clipboard2-check me-2"></i>Révision Technique</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/technical/permits/{{ $permit->id }}/review">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label fw-medium">Conformité</label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conformite" value="1" id="conforme" required>
+                                <label class="form-check-label" for="conforme">Conforme</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conformite" value="0" id="non-conforme">
+                                <label class="form-check-label" for="non-conforme">Non conforme</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="remarque" class="form-label fw-medium">Remarques</label>
+                        <textarea class="form-control" id="remarque" name="remarque" rows="3" placeholder="Observations techniques..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-navy"><i class="bi bi-send me-2"></i>Soumettre la révision</button>
+                </form>
+            </div>
+        </div>
+        @endif
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="col-lg-4">
+        <!-- Documents -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-paperclip me-2"></i>Documents</h6>
+            </div>
+            <div class="card-body">
+                @if($permit->documents->count())
+                    <div class="list-group list-group-flush">
+                        @foreach($permit->documents as $doc)
+                            <div class="list-group-item px-0 d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                    <div>
+                                        <div class="small fw-medium">{{ $doc->file_name }}</div>
+                                        <div class="text-muted" style="font-size:0.7rem;">{{ $doc->uploaded_at?->format('d/m/Y') }}</div>
+                                    </div>
+                                </div>
+                                <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></a>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-muted small text-center mb-0">Aucun document</p>
+                @endif
+
+                @if(auth()->user()->isCitoyen())
+                    <hr>
+                    <form method="POST" action="/permits/{{ $permit->id }}/documents" enctype="multipart/form-data">
+                        @csrf
+                        <div class="input-group input-group-sm">
+                            <input type="file" class="form-control" name="document" required>
+                            <button type="submit" class="btn btn-navy"><i class="bi bi-upload"></i></button>
+                        </div>
+                    </form>
+                @endif
+            </div>
+        </div>
+
+        <!-- History Timeline -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-clock-history me-2"></i>Historique</h6>
+            </div>
+            <div class="card-body">
+                @if($permit->histories->count())
+                    @foreach($permit->histories->sortByDesc('changed_at')->take(10) as $history)
+                        <div class="d-flex gap-3 mb-3 {{ !$loop->last ? 'border-bottom pb-3' : '' }}">
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style="width:32px;height:32px;">
+                                    <i class="bi bi-arrow-right-circle text-primary small"></i>
                                 </div>
                             </div>
-                            <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank" class="text-sm text-navy-800 hover:text-gold-600 font-medium">Télécharger</a>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <p class="text-sm text-gray-500 text-center py-4">Aucun document joint.</p>
-            @endif
-
-            {{-- Upload form --}}
-            @if(auth()->user()->isCitoyen())
-                <form method="POST" action="/permits/{{ $permit->id }}/documents" enctype="multipart/form-data" class="mt-4 pt-4 border-t border-gray-100">
-                    @csrf
-                    <div class="flex items-center gap-3">
-                        <input type="file" name="document" required class="block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-navy-50 file:text-navy-800 hover:file:bg-navy-100">
-                        <button type="submit" class="rounded-lg bg-navy-800 px-4 py-2 text-sm font-semibold text-white hover:bg-navy-700 transition">Ajouter</button>
-                    </div>
-                </form>
-            @endif
-        </div>
-    </div>
-
-    {{-- History --}}
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-base font-semibold text-navy-800">Historique</h3>
-        </div>
-        <div class="p-6">
-            @if($permit->histories->count())
-                <ol class="relative border-l-2 border-gray-200 ml-3 space-y-6">
-                    @foreach($permit->histories->sortByDesc('changed_at') as $history)
-                        <li class="ml-6">
-                            <span class="absolute -left-2 flex h-4 w-4 items-center justify-center rounded-full bg-navy-800 ring-4 ring-white"></span>
-                            <div class="flex items-center gap-2">
-                                <time class="text-xs text-gray-500">{{ $history->changed_at?->format('d/m/Y H:i') }}</time>
-                                <span class="text-xs text-gray-400">par {{ $history->changedBy?->prenom }} {{ $history->changedBy?->nom }}</span>
+                            <div>
+                                <div class="small text-muted">{{ $history->changed_at?->format('d/m/Y H:i') }}</div>
+                                <div class="small">par {{ $history->changedBy?->prenom }} {{ $history->changedBy?->nom }}</div>
+                                @if($history->commentaire)
+                                    <div class="small text-muted mt-1 fst-italic">{{ $history->commentaire }}</div>
+                                @endif
                             </div>
-                            @if($history->commentaire)
-                                <p class="mt-1 text-sm text-gray-700">{{ $history->commentaire }}</p>
-                            @endif
-                        </li>
+                        </div>
                     @endforeach
-                </ol>
-            @else
-                <p class="text-sm text-gray-500 text-center py-4">Aucun historique.</p>
-            @endif
+                @else
+                    <p class="text-muted small text-center mb-0">Aucun historique</p>
+                @endif
+            </div>
         </div>
     </div>
 </div>

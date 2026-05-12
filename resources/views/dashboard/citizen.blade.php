@@ -3,88 +3,94 @@
 @section('page-title', 'Tableau de bord')
 
 @section('content')
-<div class="space-y-6">
-    {{-- Stats cards --}}
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
-        <div class="overflow-hidden rounded-xl bg-white px-4 py-5 shadow-sm border border-gray-100 sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-lg bg-navy-800 p-3">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                    <i class="bi bi-file-earmark-text"></i>
                 </div>
-                <div class="ml-5">
-                    <p class="text-sm font-medium text-gray-500">Total Permis</p>
-                    <p class="text-2xl font-bold text-navy-800">{{ $totalPermits }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="overflow-hidden rounded-xl bg-white px-4 py-5 shadow-sm border border-gray-100 sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-lg bg-gold-500 p-3">
-                    <svg class="h-6 w-6 text-navy-900" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="ml-5">
-                    <p class="text-sm font-medium text-gray-500">En attente</p>
-                    <p class="text-2xl font-bold text-gold-600">{{ $pending }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="overflow-hidden rounded-xl bg-white px-4 py-5 shadow-sm border border-gray-100 sm:p-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0 rounded-lg bg-green-600 p-3">
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="ml-5">
-                    <p class="text-sm font-medium text-gray-500">Approuvés</p>
-                    <p class="text-2xl font-bold text-green-700">{{ $totalPermits - $pending }}</p>
+                <div>
+                    <div class="text-muted small">Total Permis</div>
+                    <div class="fw-bold fs-4">{{ $totalPermits }}</div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- Quick action --}}
-    <div class="flex justify-end">
-        <a href="{{ route('citizen.permits.create') }}" class="inline-flex items-center rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-navy-700 transition">
-            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-            Nouvelle demande
-        </a>
-    </div>
-
-    {{-- Recent permits --}}
-    <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-base font-semibold text-navy-800">Derniers permis</h3>
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <div>
+                    <div class="text-muted small">En attente</div>
+                    <div class="fw-bold fs-4">{{ $pending }}</div>
+                </div>
+            </div>
         </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body d-flex align-items-center gap-3">
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div>
+                    <div class="text-muted small">Traités</div>
+                    <div class="fw-bold fs-4">{{ $totalPermits - $pending }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Action -->
+<div class="d-flex justify-content-end mb-4">
+    <a href="{{ route('citizen.permits.create') }}" class="btn btn-navy">
+        <i class="bi bi-plus-circle me-2"></i>Nouvelle demande
+    </a>
+</div>
+
+<!-- Recent Permits Table -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 fw-bold">Derniers permis</h6>
+        <a href="{{ route('citizen.permits') }}" class="btn btn-sm btn-outline-secondary">Voir tous</a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Référence</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Projet</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th>Référence</th>
+                        <th>Projet</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody>
                     @forelse ($recentPermits as $permit)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <a href="{{ route('citizen.permits.show', $permit->id) }}" class="text-sm font-medium text-navy-800 hover:text-gold-600">{{ $permit->reference_number }}</a>
+                        <tr>
+                            <td>
+                                <a href="{{ route('citizen.permits.show', $permit->id) }}" class="fw-medium text-decoration-none">{{ $permit->reference_number }}</a>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ Str::limit($permit->project_title, 30) }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $permit->permitType?->nom }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium" style="background-color: {{ $permit->status?->couleur }}20; color: {{ $permit->status?->couleur }};">
+                            <td>{{ Str::limit($permit->project_title, 30) }}</td>
+                            <td><span class="badge bg-light text-dark">{{ $permit->permitType?->nom }}</span></td>
+                            <td>
+                                <span class="badge-status" style="background-color: {{ $permit->status?->couleur }}20; color: {{ $permit->status?->couleur }};">
                                     {{ $permit->status?->nom }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $permit->submitted_at?->format('d/m/Y') }}</td>
+                            <td class="text-muted small">{{ $permit->submitted_at?->format('d/m/Y') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-500">
-                                <svg class="mx-auto h-10 w-10 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9.75m3 0h3m-3 0V15m-9-3.375c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013 16.125v-4.5z"/></svg>
-                                Aucun permis pour le moment. <a href="{{ route('citizen.permits.create') }}" class="text-gold-600 font-medium hover:underline">Créer votre première demande</a>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                Aucun permis. <a href="{{ route('citizen.permits.create') }}">Créer votre première demande</a>
                             </td>
                         </tr>
                     @endforelse
