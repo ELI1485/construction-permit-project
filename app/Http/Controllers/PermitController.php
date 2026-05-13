@@ -9,6 +9,7 @@ use App\Models\PermitType;
 use App\Models\Status;
 use App\Models\User;
 use App\Services\AIService;
+use App\Services\DocumentScannerService;
 use App\Services\NotificationService;
 use App\Services\WorkflowService;
 use Illuminate\Http\Request;
@@ -63,7 +64,7 @@ class PermitController extends Controller
         return view('permits.create', compact('permitTypes', 'districts'));
     }
 
-    public function store(Request $request, AIService $aiService)
+    public function store(Request $request, AIService $aiService, DocumentScannerService $scanner)
     {
         // Support AI Test API endpoint (JSON POST to /permits)
         if ($request->expectsJson()) {
@@ -114,9 +115,63 @@ class PermitController extends Controller
             'project_title' => 'required|string|max:255',
             'project_address' => 'required|string',
             'surface' => 'required|numeric|min:1',
-            'documents.*' => 'nullable|file|max:10240|mimes:pdf,jpg,jpeg,png',
+            'documents' => 'required|array|min:1',
+            'documents.*' => 'required|file|max:10240|mimes:pdf,jpg,jpeg,png',
         ]);
 
+        // ── Step 1: AI Document Pre-scan ────────────────────────────────────────
+        $uploadedFiles = $request->file('documents') ?? [];
+        $scanResult = $scanner->scan($uploadedFiles);
+
+        if (! $scanResult['passed']) {
+            // Create the permit record immediately so we have a reference number
+            $rejectedStatus = Status::where('nom', 'Refusé')->firstOrFail();
+
+            $permit = Permit::create([
+                'permit_type_id' => $request->permit_type_id,
+                'citizen_id' => Auth::id(),
+                'status_id' => $rejectedStatus->id,
+                'district_id' => $request->district_id,
+                'reference_number' => 'PC-'.date('Y').'-'.rand(10000, 99999),
+                'project_title' => $request->project_title,
+                'project_address' => $request->project_address,
+                'surface' => $request->surface,
+                'submitted_at' => now(),
+            ]);
+
+            // Store whatever was uploaded so the citizen can review
+            foreach ($uploadedFiles as $file) {
+                $path = $file->store("documents/{$permit->id}", 'public');
+                Document::create([
+                    'permit_id' => $permit->id,
+                    'uploaded_by' => Auth::id(),
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'uploaded_at' => now(),
+                ]);
+            }
+
+            // Log the auto-rejection in history
+            WorkflowService::changeStatus(
+                $permit,
+                $rejectedStatus->id,
+                Auth::id(),
+                'رفض تلقائي بواسطة نظام الفحص الذكي للوثائق: '.$scanResult['reason']
+            );
+
+            // Notify citizen
+            NotificationService::notify(
+                Auth::id(),
+                $permit->id,
+                'رفض تلقائي للطلب',
+                "تم رفض طلبك #{$permit->reference_number} تلقائياً. ".$scanResult['reason']
+            );
+
+            return redirect()->route('citizen.permits')
+                ->with('error', 'تم رفض طلبك تلقائياً بسبب نقص الوثائق: '.$scanResult['reason']);
+        }
+
+        // ── Step 2: Documents passed — create permit with Soumis status ─────────
         $status = Status::where('nom', 'Soumis')->firstOrFail();
 
         $permit = Permit::create([
@@ -132,24 +187,22 @@ class PermitController extends Controller
         ]);
 
         // Upload Documents
-        if ($request->hasFile('documents')) {
-            foreach ($request->file('documents') as $file) {
-                $path = $file->store("documents/{$permit->id}", 'public');
-                Document::create([
-                    'permit_id' => $permit->id,
-                    'document_type_id' => null,
-                    'uploaded_by' => Auth::id(),
-                    'file_name' => $file->getClientOriginalName(),
-                    'file_path' => $path,
-                    'uploaded_at' => now(),
-                ]);
-            }
+        foreach ($uploadedFiles as $file) {
+            $path = $file->store("documents/{$permit->id}", 'public');
+            Document::create([
+                'permit_id' => $permit->id,
+                'uploaded_by' => Auth::id(),
+                'file_name' => $file->getClientOriginalName(),
+                'file_path' => $path,
+                'uploaded_at' => now(),
+            ]);
         }
 
+        // ── Step 3: Run AI risk analysis (non-blocking) ──────────────────────────
         $permit->load('documents', 'permitType');
         AIService::analyze($permit);
 
-        WorkflowService::changeStatus($permit, $status->id, Auth::id(), 'Dossier soumis avec succès.');
+        WorkflowService::changeStatus($permit, $status->id, Auth::id(), 'تم إيداع الملف بنجاح بعد الفحص التلقائي للوثائق.');
 
         // Notify Agents
         $agents = User::whereHas('role', fn ($q) => $q->where('nom', 'agent_urbanisme'))->get();
@@ -159,7 +212,7 @@ class PermitController extends Controller
         }
 
         return redirect()->route('citizen.permits')
-            ->with('success', 'Dossier soumis avec succès !');
+            ->with('success', 'تم إيداع طلبك بنجاح! رقم ملفك: '.$permit->reference_number);
     }
 
     public function show(string $id)
