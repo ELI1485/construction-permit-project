@@ -28,11 +28,11 @@
                     <button @click="open = !open"
                             class="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 hover:border-[#006399] hover:bg-blue-50/50 transition-all">
                         <div class="w-8 h-8 rounded-full bg-[#006399] flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                            {{ mb_substr(auth()->user()->nom ?? 'م', 0, 1) }}
+                            {{ mb_substr(auth()->user()?->nom ?? 'م', 0, 1) }}
                         </div>
                         <div class="hidden sm:flex flex-col items-start leading-tight">
-                            <span class="text-sm font-bold text-slate-700">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</span>
-                            <span class="text-[10px] text-slate-400 font-medium">{{ auth()->user()->role?->nom ?? 'مستخدم' }}</span>
+                            <span class="text-sm font-bold text-slate-700">{{ auth()->user()?->nom }} {{ auth()->user()?->prenom }}</span>
+                            <span class="text-[10px] text-slate-400 font-medium">{{ auth()->user()?->role?->nom ?? 'مستخدم' }}</span>
                         </div>
                         <svg class="w-4 h-4 text-slate-400 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -43,8 +43,8 @@
                     <div x-show="open" x-transition
                          class="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-100 py-1 z-50">
                         <div class="px-4 py-3 border-b border-slate-100">
-                            <p class="text-sm font-bold text-slate-800">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</p>
-                            <p class="text-xs text-slate-400 mt-0.5">{{ auth()->user()->email }}</p>
+                            <p class="text-sm font-bold text-slate-800">{{ auth()->user()?->nom }} {{ auth()->user()?->prenom }}</p>
+                            <p class="text-xs text-slate-400 mt-0.5">{{ auth()->user()?->email }}</p>
                         </div>
                         <a href="{{ route('dashboard') }}"
                            class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#006399] transition-colors">

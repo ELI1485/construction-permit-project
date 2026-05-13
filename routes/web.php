@@ -116,36 +116,40 @@ Route::get('/dashboard', function () {
     };
 })->name('dashboard');
 
-// Role-specific Dashboards dynamic integrations
-Route::get('/dashboard/admin', [DashboardController::class, 'admin']);
-Route::get('/dashboard/agent', [DashboardController::class, 'agent']);
-Route::get('/dashboard/architect', [DashboardController::class, 'architect']);
-Route::get('/dashboard/citizen', [DashboardController::class, 'citizen']);
-Route::get('/dashboard/technical', [DashboardController::class, 'technical']);
+// Role-specific Dashboards dynamic integrations (auth required)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard/admin', [DashboardController::class, 'admin']);
+    Route::get('/dashboard/agent', [DashboardController::class, 'agent']);
+    Route::get('/dashboard/architect', [DashboardController::class, 'architect']);
+    Route::get('/dashboard/citizen', [DashboardController::class, 'citizen']);
+    Route::get('/dashboard/technical', [DashboardController::class, 'technical']);
+});
 
-// Permits (served with real data)
-Route::get('/permits', function () {
-    $permits = Permit::with('status', 'citizen', 'permitType', 'district')
-        ->latest()->paginate(15);
+// Permits (served with real data, auth required)
+Route::middleware('auth')->group(function () {
+    Route::get('/permits', function () {
+        $permits = Permit::with('status', 'citizen', 'permitType', 'district')
+            ->latest()->paginate(15);
 
-    return view('permits.index', compact('permits'));
-})->name('permits.index');
-Route::get('/permits/create', function () {
-    return view('permits.create');
-})->name('permits.create');
-Route::get('/permits/edit', function () {
-    return view('permits.edit');
-})->name('permits.edit');
-Route::get('/permits/{permit}', function (Permit $permit) {
-    $permit->load('status', 'citizen', 'architect', 'permitType', 'district', 'documents.documentType', 'histories.oldStatus', 'histories.newStatus');
+        return view('permits.index', compact('permits'));
+    })->name('permits.index');
+    Route::get('/permits/create', function () {
+        return view('permits.create');
+    })->name('permits.create');
+    Route::get('/permits/edit', function () {
+        return view('permits.edit');
+    })->name('permits.edit');
+    Route::get('/permits/{permit}', function (Permit $permit) {
+        $permit->load('status', 'citizen', 'architect', 'permitType', 'district', 'documents.documentType', 'histories.oldStatus', 'histories.newStatus');
 
-    return view('permits.show', compact('permit'));
-})->name('permits.show');
-Route::get('/permits/{permit}/history', function (Permit $permit) {
-    $permit->load('histories.oldStatus', 'histories.newStatus');
+        return view('permits.show', compact('permit'));
+    })->name('permits.show');
+    Route::get('/permits/{permit}/history', function (Permit $permit) {
+        $permit->load('histories.oldStatus', 'histories.newStatus');
 
-    return view('permits.history', compact('permit'));
-})->name('permits.history');
+        return view('permits.history', compact('permit'));
+    })->name('permits.history');
+});
 
 // Documents previews
 Route::get('/documents', function () {
