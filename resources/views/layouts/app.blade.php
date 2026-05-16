@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'رُخْصَتِي - منصة التراخيص الرقمية')</title>
-    <meta name="description" content="منصة رُخْصَتِي الرقمية للحصول على تراخيص البناء والتعمير في المملكة المغربية">
+    <title>@yield('title', 'Rokhsati - Plateforme Numérique des Permis')</title>
+    <meta name="description" content="Plateforme numérique Rokhsati pour l'obtention des permis de construire au Royaume du Maroc">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=tajawal:400,500,700,800&display=swap" rel="stylesheet" />

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'تفاصيل الترخيص #{{ $permit->reference_number }} - رُخْصَتِي')
+@section('title', 'Détails de la licence #{{ $permit->reference_number }} - Mon permis')
 
 @section('content')
 <div class="max-w-6xl mx-auto space-y-6">
@@ -14,7 +14,7 @@
             </a>
             <div>
                 <div class="flex items-center gap-3 mb-1 flex-wrap">
-                    <h1 class="text-xl font-extrabold text-slate-800">طلب رقم {{ $permit->reference_number }}</h1>
+                    <h1 class="text-xl font-extrabold text-slate-800">Composer le numéro {{ $permit->reference_number }}</h1>
                     @php
                         $statusColors = [
                             'Soumis' => 'bg-blue-50 text-blue-600 border-blue-200',
@@ -28,11 +28,11 @@
                         $statusClass = $statusColors[$permit->status?->nom] ?? 'bg-slate-100 text-slate-600 border-slate-200';
                     @endphp
                     <span class="px-3 py-1 rounded-full text-xs font-bold border {{ $statusClass }}">
-                        {{ $permit->status?->nom ?? 'غير محدد' }}
+                        {{ $permit->status?->nom ?? 'indéfini' }}
                     </span>
                 </div>
                 <p class="text-slate-500 text-sm">
-                    تم الإيداع بتاريخ {{ $permit->submitted_at?->format('d/m/Y H:i') ?? $permit->created_at?->format('d/m/Y H:i') }}
+                    Déposé le {{ $permit->submitted_at?->format('d/m/Y H:i') ?? $permit->created_at?->format('d/m/Y H:i') }}
                 </p>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <button onclick="window.print()"
                     class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-colors shadow-sm flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                طباعة
+                imprimer
             </button>
         </div>
     </div>
@@ -52,50 +52,50 @@
 
             {{-- Basic Info --}}
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-base font-bold text-slate-800 mb-5 pb-4 border-b border-slate-100">المعلومات الأساسية للطلب</h3>
+                <h3 class="text-base font-bold text-slate-800 mb-5 pb-4 border-b border-slate-100">Informations de base pour la commande</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">نوع الترخيص</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Type de licence</span>
                         <span class="block text-slate-800 font-bold">{{ $permit->permitType?->nom ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">صاحب الطلب (المواطن)</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Le demandeur (Citoyen)</span>
                         <span class="block text-slate-800 font-bold">
                             {{ $permit->citizen?->nom }} {{ $permit->citizen?->prenom }}
                         </span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">المهندس المعماري</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Architecte</span>
                         <span class="block text-slate-800 font-bold">
-                            {{ $permit->architect ? $permit->architect->nom . ' ' . $permit->architect->prenom : 'لم يُعيَّن بعد' }}
+                            {{ $permit->architect ? $permit->architect->nom . ' ' . $permit->architect->prenom : 'Pas encore nommé' }}
                         </span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">العمالة / الإقليم</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Emploi / Territoire</span>
                         <span class="block text-slate-800 font-bold">{{ $permit->district?->nom ?? '—' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">عنوان المشروع</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Titre du projet</span>
                         <span class="block text-slate-800 font-bold">{{ $permit->project_title }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">المساحة الإجمالية</span>
-                        <span class="block text-slate-800 font-bold">{{ number_format($permit->surface) }} م²</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Superficie totale</span>
+                        <span class="block text-slate-800 font-bold">{{ number_format($permit->surface) }} M²</span>
                     </div>
                     <div class="md:col-span-2">
-                        <span class="block text-xs text-slate-400 font-medium mb-1">تفاصيل الموقع / الملاحظات</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Détails de l'emplacement / Remarques</span>
                         <span class="block text-slate-700 text-sm leading-relaxed bg-slate-50 rounded-xl p-3">{{ $permit->project_address }}</span>
                     </div>
                     @if($permit->risk_score)
                     <div>
-                        <span class="block text-xs text-slate-400 font-medium mb-1">درجة الخطورة (AI)</span>
+                        <span class="block text-xs text-slate-400 font-medium mb-1">Degré de risque (AI)</span>
                         <span class="block text-slate-800 font-bold">{{ $permit->risk_score }} —
                             @if($permit->risk_level === 'High')
-                                <span class="text-red-500">عالية</span>
+                                <span class="text-red-500">Haut</span>
                             @elseif($permit->risk_level === 'Medium')
-                                <span class="text-amber-500">متوسطة</span>
+                                <span class="text-amber-500">Moyen</span>
                             @else
-                                <span class="text-green-500">منخفضة</span>
+                                <span class="text-green-500">Faible</span>
                             @endif
                         </span>
                     </div>
@@ -105,7 +105,7 @@
 
             {{-- Documents --}}
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-base font-bold text-slate-800 mb-5 pb-4 border-b border-slate-100">الوثائق المرفقة</h3>
+                <h3 class="text-base font-bold text-slate-800 mb-5 pb-4 border-b border-slate-100">Documents joints</h3>
                 @if($permit->documents && $permit->documents->count() > 0)
                     <div class="space-y-3">
                         @foreach($permit->documents as $document)
@@ -116,7 +116,7 @@
                                 </div>
                                 <div>
                                     <p class="font-bold text-slate-700 text-sm">{{ $document->documentType?->nom ?? $document->file_name }}</p>
-                                    <p class="text-xs text-slate-400">رُفع بتاريخ {{ $document->uploaded_at?->format('d/m/Y') ?? '—' }}</p>
+                                    <p class="text-xs text-slate-400">Mis en ligne le {{ $document->uploaded_at?->format('d/m/Y') ?? '—' }}</p>
                                 </div>
                             </div>
                             <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank"
@@ -129,7 +129,7 @@
                 @else
                     <div class="text-center py-6 text-slate-400 text-sm">
                         <svg class="w-10 h-10 mx-auto mb-2 stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        لم يتم رفع أي وثيقة بعد
+                        Aucun document n'a encore été téléchargé
                     </div>
                 @endif
             </div>
@@ -141,15 +141,15 @@
 
             {{-- Status Timeline --}}
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-base font-bold text-slate-800 mb-6">مسار الطلب</h3>
+                <h3 class="text-base font-bold text-slate-800 mb-6">Chemin de requête</h3>
 
                 {{-- Rokhas.ma-style status steps --}}
                 @php
                     $steps = [
-                        ['label' => 'إيداع الطلب', 'icon' => '📥', 'done' => true],
-                        ['label' => 'مراجعة الوثائق', 'icon' => '📋', 'done' => in_array($permit->status?->nom, ["En cours d'étude", 'Validé techniquement', 'Validé administrativement'])],
-                        ['label' => 'التقييم التقني', 'icon' => '🔧', 'done' => in_array($permit->status?->nom, ['Validé techniquement', 'Validé administrativement'])],
-                        ['label' => 'القرار النهائي', 'icon' => '✅', 'done' => $permit->status?->nom === 'Validé administrativement'],
+                        ['label' => 'Soumettre la candidature', 'icon' => '📥', 'done' => true],
+                        ['label' => 'Examen des documents', 'icon' => '📋', 'done' => in_array($permit->status?->nom, ["En cours d'étude", 'Validé techniquement', 'Validé administrativement'])],
+                        ['label' => 'Évaluation technique', 'icon' => '🔧', 'done' => in_array($permit->status?->nom, ['Validé techniquement', 'Validé administrativement'])],
+                        ['label' => 'Décision finale', 'icon' => '✅', 'done' => $permit->status?->nom === 'Validé administrativement'],
                     ];
                 @endphp
 
@@ -181,14 +181,14 @@
             {{-- History --}}
             @if(isset($permit->histories) && $permit->histories->count() > 0)
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 class="text-base font-bold text-slate-800 mb-4">سجل التغييرات</h3>
+                <h3 class="text-base font-bold text-slate-800 mb-4">Enregistrer les modifications</h3>
                 <div class="space-y-3">
                     @foreach($permit->histories->sortByDesc('changed_at') as $history)
                     <div class="flex gap-3">
                         <div class="w-2 h-2 rounded-full bg-[#006399] mt-2 shrink-0"></div>
                         <div>
                             <p class="text-xs font-bold text-slate-700">
-                                {{ $history->oldStatus?->nom ?? 'البداية' }} ← {{ $history->newStatus?->nom }}
+                                {{ $history->oldStatus?->nom ?? 'le début' }} ← {{ $history->newStatus?->nom }}
                             </p>
                             <p class="text-xs text-slate-400 mt-0.5">{{ $history->changed_at?->format('d/m/Y H:i') }}</p>
                             @if($history->commentaire)

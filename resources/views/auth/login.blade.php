@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>تسجيل الدخول - رُخْصَتِي</title>
+    <title>Connexion - Ma licence</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=tajawal:400,500,700,800&display=swap" rel="stylesheet" />
@@ -23,20 +23,20 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <!-- Logo -->
         <a href="{{ url('/') }}" class="inline-flex items-center justify-center gap-3 group mb-2">
-            <img src="{{ asset('images/logo.png') }}" alt="شعار رخصتي"
+            <img src="{{ asset('images/logo.png') }}" alt="Mon logo de licence"
                  class="w-12 h-12 object-contain group-hover:scale-105 transition-transform" />
             <div class="flex flex-col items-start leading-tight">
-                <span class="text-3xl font-extrabold text-[#006399] tracking-tight leading-none">رُخْصَتِي</span>
+                <span class="text-3xl font-extrabold text-[#006399] tracking-tight leading-none">Mon permis</span>
                 <span class="text-xs font-bold text-[#D4AF37] tracking-widest uppercase">Rokhsati</span>
             </div>
         </a>
         <h2 class="mt-4 text-center text-2xl font-bold text-slate-800 tracking-tight">
-            تسجيل الدخول إلى حسابك
+            Connectez-vous à votre compte
         </h2>
         <p class="mt-2 text-center text-sm text-slate-500">
-            أو
+            ou
             <a href="{{ route('register') }}" class="font-bold text-[#006399] hover:text-[#005180] transition-colors">
-                قم بإنشاء حساب جديد
+                Créer un nouveau compte
             </a>
         </p>
     </div>
@@ -60,7 +60,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-bold text-slate-700 mb-2">
-                        البريد الإلكتروني
+                        e-mail
                     </label>
                     <div class="relative">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
@@ -71,7 +71,7 @@
 
                 <div>
                     <label for="password" class="block text-sm font-bold text-slate-700 mb-2">
-                        كلمة المرور
+                        mot de passe
                     </label>
                     <div class="relative">
                         <input id="password" name="password" type="password" autocomplete="current-password" required
@@ -85,13 +85,13 @@
                         <input id="remember_me" name="remember" type="checkbox"
                             class="h-4 w-4 text-[#006399] focus:ring-[#006399] border-slate-300 rounded cursor-pointer">
                         <label for="remember_me" class="mr-2 block text-sm text-slate-600 cursor-pointer">
-                            تذكرني
+                            Souviens-toi de moi
                         </label>
                     </div>
 
                     <div class="text-sm">
                         <a href="#" class="font-bold text-[#006399] hover:text-[#005180] transition-colors">
-                            نسيت كلمة المرور؟
+                            Vous avez oublié votre mot de passe ?
                         </a>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 <div>
                     <button type="submit"
                         class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-[#006399] hover:bg-[#005180] focus:outline-none focus:ring-4 focus:ring-[#006399]/20 transition-all">
-                        دخول
+                        entrée
                     </button>
                 </div>
             </form>
@@ -108,7 +108,7 @@
             <div class="mt-6 pt-6 border-t border-slate-100 text-center">
                 <a href="{{ url('/') }}" class="text-sm text-slate-400 hover:text-slate-600 transition-colors inline-flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    العودة إلى الصفحة الرئيسية
+                    Retour à la page d'accueil
                 </a>
             </div>
 

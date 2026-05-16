@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'قائمة التراخيص - رُخْصَتِي')
+@section('title', 'Liste des licences - Ma licence')
 
 @section('content')
 <div class="max-w-6xl mx-auto space-y-6">
@@ -8,14 +8,14 @@
     {{-- Header --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-800 mb-1">إدارة التراخيص</h1>
-            <p class="text-slate-500 text-sm">عرض وإدارة جميع طلبات التراخيص المقدمة عبر المنصة.</p>
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-1">Gestion des licences</h1>
+            <p class="text-slate-500 text-sm">Consultez et gérez toutes les demandes de licence soumises via la plateforme.</p>
         </div>
         @if(auth()->user()?->isCitoyen() || auth()->user()?->isArchitecte())
         <a href="{{ route('permits.create') }}"
            class="inline-flex items-center gap-2 bg-[#006399] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-[#005180] transition-colors shadow-md shadow-blue-200 text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            تقديم طلب جديد
+            Soumettre une nouvelle candidature
         </a>
         @endif
     </div>
@@ -25,16 +25,16 @@
         {{-- Filter Bar --}}
         <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3">
             <div class="relative flex-1 min-w-[200px] max-w-sm">
-                <input type="text" id="searchInput" placeholder="بحث برقم الملف أو العنوان..."
+                <input type="text" id="searchInput" placeholder="Recherche par numéro de dossier ou titre..."
                        class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm">
                 <svg class="w-4 h-4 text-slate-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </div>
             <select id="statusFilter" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399]">
-                <option value="">جميع الحالات</option>
-                <option value="Soumis">مُودَع</option>
-                <option value="En cours">قيد الدراسة</option>
-                <option value="Validé">مقبول</option>
-                <option value="Refusé">مرفوض</option>
+                <option value="">Tous les cas</option>
+                <option value="Soumis">Déposé</option>
+                <option value="En cours">À l'étude</option>
+                <option value="Validé">acceptable</option>
+                <option value="Refusé">inacceptable</option>
             </select>
         </div>
 
@@ -44,13 +44,13 @@
                 <table class="w-full text-right text-sm" id="permitsTable">
                     <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
                         <tr>
-                            <th class="px-6 py-4 font-medium">رقم المرجع</th>
-                            <th class="px-6 py-4 font-medium">مقدم الطلب</th>
-                            <th class="px-6 py-4 font-medium">نوع الترخيص</th>
-                            <th class="px-6 py-4 font-medium">المنطقة</th>
-                            <th class="px-6 py-4 font-medium">تاريخ الإيداع</th>
-                            <th class="px-6 py-4 font-medium">الحالة</th>
-                            <th class="px-6 py-4 font-medium text-center">إجراءات</th>
+                            <th class="px-6 py-4 font-medium">Numéro de référence</th>
+                            <th class="px-6 py-4 font-medium">demandeur</th>
+                            <th class="px-6 py-4 font-medium">Type de licence</th>
+                            <th class="px-6 py-4 font-medium">Zone</th>
+                            <th class="px-6 py-4 font-medium">Date de dépôt</th>
+                            <th class="px-6 py-4 font-medium">l'état</th>
+                            <th class="px-6 py-4 font-medium text-center">procédures</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
@@ -84,7 +84,7 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <a href="{{ route('permits.show', $permit->id) }}"
-                                   class="inline-flex items-center gap-1 p-2 text-[#006399] hover:bg-blue-50 rounded-lg transition-colors" title="عرض التفاصيل">
+                                   class="inline-flex items-center gap-1 p-2 text-[#006399] hover:bg-blue-50 rounded-lg transition-colors" title="Afficher les détails">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 </a>
                             </td>
@@ -99,9 +99,9 @@
         @else
             <div class="p-16 text-center text-slate-400 space-y-4">
                 <svg class="w-14 h-14 mx-auto stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                <p class="font-medium text-lg">لا توجد طلبات ترخيص حالياً</p>
+                <p class="font-medium text-lg">Il n'y a actuellement aucune demande de licence</p>
                 @if(auth()->user()?->isCitoyen())
-                <a href="{{ route('permits.create') }}" class="inline-block text-sm text-[#006399] font-bold underline hover:text-blue-800">ابدأ بتقديم طلبك الأول</a>
+                <a href="{{ route('permits.create') }}" class="inline-block text-sm text-[#006399] font-bold underline hover:text-blue-800">Commencez par soumettre votre première candidature</a>
                 @endif
             </div>
         @endif

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'تاريخ الطلب')
+@section('title', 'Date de commande')
 
 @section('content')
 <div class="mb-8 flex items-center gap-4">
@@ -8,8 +8,8 @@
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
     </a>
     <div>
-        <h1 class="text-2xl font-bold text-slate-800 mb-1">السجل التاريخي للطلب #REQ-2026-001</h1>
-        <p class="text-slate-500 text-sm">تتبع جميع التعديلات والإجراءات التي تمت على هذا الملف.</p>
+        <h1 class="text-2xl font-bold text-slate-800 mb-1">Historique de la commande #REQ-2026-001</h1>
+        <p class="text-slate-500 text-sm">Suivre toutes les modifications et actions apportées à ce fichier.</p>
     </div>
 </div>
 
@@ -23,10 +23,10 @@
             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] pr-4 md:pr-0 md:pl-4 text-right">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                     <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-bold text-slate-800">تعديل المخطط الهندسي</h4>
-                        <time class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">اليوم, 10:30 ص</time>
+                        <h4 class="font-bold text-slate-800">Modifier la charte d'ingénierie</h4>
+                        <time class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">aujourd'hui, 10:30 p</time>
                     </div>
-                    <p class="text-sm text-slate-600">قام <span class="font-bold">أحمد المهندس</span> برفع نسخة معدلة من المخطط المعماري استجابة لملاحظات اللجنة.</p>
+                    <p class="text-sm text-slate-600">Il s'est levé <span class="font-bold">Ahmed Al-Muhandis</span> En téléchargeant une version modifiée du plan architectural en réponse aux commentaires du comité.</p>
                 </div>
             </div>
         </div>
@@ -38,10 +38,10 @@
             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] pr-4 md:pr-0 md:pl-4 text-right">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                     <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-bold text-slate-800">إبداء ملاحظات اللجنة</h4>
-                        <time class="text-xs text-slate-400">12 مايو 2026</time>
+                        <h4 class="font-bold text-slate-800">Exprimer les commentaires du comité</h4>
+                        <time class="text-xs text-slate-400">12 Peut 2026</time>
                     </div>
-                    <p class="text-sm text-slate-600">تم تسجيل ملاحظات من طرف <span class="font-bold">لجنة التعمير</span> بخصوص الواجهة الأمامية.</p>
+                    <p class="text-sm text-slate-600">Les notes ont été enregistrées par <span class="font-bold">Comité de reconstruction</span> Concernant l'avant.</p>
                 </div>
             </div>
         </div>
@@ -53,10 +53,10 @@
             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] pr-4 md:pr-0 md:pl-4 text-right">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                     <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-bold text-slate-800">إيداع الطلب</h4>
-                        <time class="text-xs text-slate-400">11 مايو 2026</time>
+                        <h4 class="font-bold text-slate-800">Soumettre la candidature</h4>
+                        <time class="text-xs text-slate-400">11 Peut 2026</time>
                     </div>
-                    <p class="text-sm text-slate-600">تم إيداع الطلب الأصلي بنجاح عبر البوابة الإلكترونية.</p>
+                    <p class="text-sm text-slate-600">La candidature originale a été soumise avec succès via le portail en ligne.</p>
                 </div>
             </div>
         </div>

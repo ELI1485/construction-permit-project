@@ -23,11 +23,11 @@
     </div>
 </div>
 <div class="flex justify-between mt-2 text-xs text-slate-400 font-medium">
-    <span>يناير</span>
-    <span>فبراير</span>
-    <span>مارس</span>
-    <span>أبريل</span>
-    <span>مايو</span>
-    <span>يونيو</span>
-    <span>يوليو</span>
+    <span>Janvier</span>
+    <span>Février</span>
+    <span>Mars</span>
+    <span>Avril</span>
+    <span>Peut</span>
+    <span>Juin</span>
+    <span>Juillet</span>
 </div>

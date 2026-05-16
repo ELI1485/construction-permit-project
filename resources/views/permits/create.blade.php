@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>تقديم طلب ترخيص جديد - رخص</title>
+    <title>Soumettre une nouvelle demande de licence - licences</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=tajawal:400,500,700,800&display=swap" rel="stylesheet" />
@@ -26,11 +26,11 @@
                 <div class="w-10 h-10 rounded-lg bg-[#006399] flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 </div>
-                <span class="text-2xl font-bold text-[#006399] tracking-tight">رخص</span>
+                <span class="text-2xl font-bold text-[#006399] tracking-tight">Bon marché</span>
             </a>
             
             <a href="{{ url('/') }}" class="text-sm font-bold text-slate-500 hover:text-[#006399] transition-colors flex items-center gap-1 bg-slate-50 hover:bg-blue-50/50 py-2 px-4 rounded-xl border border-slate-100">
-                العودة للرئيسية
+                Retour à la page principale
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </a>
         </div>
@@ -40,8 +40,8 @@
         <div class="max-w-4xl mx-auto">
             
             <div class="mb-8 text-center">
-                <h1 class="text-3xl font-extrabold text-slate-800 mb-2">تقديم طلب ترخيص جديد</h1>
-                <p class="text-slate-500 text-base max-w-xl mx-auto">يرجى استكمال المراحل الثلاث أدناه بدقة لضمان المعالجة الرقمية لطلبك بنجاح.</p>
+                <h1 class="text-3xl font-extrabold text-slate-800 mb-2">Soumettre une nouvelle demande de licence</h1>
+                <p class="text-slate-500 text-base max-w-xl mx-auto">Veuillez suivre attentivement les trois étapes ci-dessous pour garantir que votre candidature soit traitée avec succès par voie numérique..</p>
             </div>
 
             <div class="bg-white rounded-2xl shadow-xl shadow-slate-100 border border-slate-100 overflow-hidden">
@@ -58,7 +58,7 @@
                             <div id="indicatorCircle1" class="w-10 h-10 rounded-full bg-[#006399] text-white flex items-center justify-center font-bold shadow-md transition-all duration-300">
                                 1
                             </div>
-                            <span id="indicatorLabel1" class="text-xs sm:text-sm font-bold text-[#006399] transition-colors duration-300">البيانات الأساسية</span>
+                            <span id="indicatorLabel1" class="text-xs sm:text-sm font-bold text-[#006399] transition-colors duration-300">Données de base</span>
                         </div>
                         
                         <!-- Indicator 2 -->
@@ -66,7 +66,7 @@
                             <div id="indicatorCircle2" class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-400 flex items-center justify-center font-bold shadow-xs transition-all duration-300">
                                 2
                             </div>
-                            <span id="indicatorLabel2" class="text-xs sm:text-sm font-bold text-slate-400 transition-colors duration-300">تفاصيل المشروع</span>
+                            <span id="indicatorLabel2" class="text-xs sm:text-sm font-bold text-slate-400 transition-colors duration-300">Détails du projet</span>
                         </div>
                         
                         <!-- Indicator 3 -->
@@ -74,7 +74,7 @@
                             <div id="indicatorCircle3" class="w-10 h-10 rounded-full bg-white border-2 border-slate-300 text-slate-400 flex items-center justify-center font-bold transition-all duration-300">
                                 3
                             </div>
-                            <span id="indicatorLabel3" class="text-xs sm:text-sm font-medium text-slate-400 transition-colors duration-300">المرفقات والوثائق</span>
+                            <span id="indicatorLabel3" class="text-xs sm:text-sm font-medium text-slate-400 transition-colors duration-300">Pièces jointes et documents</span>
                         </div>
                     </div>
                 </div>
@@ -102,14 +102,14 @@
                     <!-- ================= STEP 1 ================= -->
                     <div id="step1" class="wizard-step space-y-6 animate-fadeIn transition-all duration-300">
                         <div class="border-b border-slate-100 pb-4 mb-6">
-                            <h2 class="text-lg font-bold text-slate-800">المرحلة الأولى: تحديد نوع وموقع الترخيص</h2>
-                            <p class="text-slate-400 text-xs mt-1">المعلومات المبدئية لتوجيه الملف للعمالة المختصة</p>
+                            <h2 class="text-lg font-bold text-slate-800">Première étape: Déterminer le type et l'emplacement de la licence</h2>
+                            <p class="text-slate-400 text-xs mt-1">Premières informations pour orienter le dossier vers la main d'œuvre compétente</p>
                         </div>
 
                         <div class="space-y-8">
                             <!-- Permit Type Visual Selection Cards -->
                             <div class="space-y-3">
-                                <label class="block text-sm font-bold text-slate-700">المجال / نوع الترخيص المطلوب <span class="text-red-500">*</span></label>
+                                <label class="block text-sm font-bold text-slate-700">Domaine / Type de permis requis <span class="text-red-500">*</span></label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                     @foreach(\App\Models\PermitType::all() as $type)
                                         <label class="relative flex flex-col items-center justify-between p-6 bg-white border-2 border-slate-100 rounded-2xl cursor-pointer hover:border-blue-200 hover:shadow-md transition-all group overflow-hidden">
@@ -117,13 +117,13 @@
                                             
                                             <!-- Icon wrapper based on permit name -->
                                             <div class="w-20 h-20 mb-4 rounded-full bg-gradient-to-b from-blue-300 via-blue-400 to-[#006399] flex items-center justify-center text-white shadow-inner group-hover:scale-105 transition-transform relative">
-                                                @if(str_contains($type->nom, 'الاقتصادي'))
+                                                @if(str_contains($type->nom, 'Économique'))
                                                     <!-- Avatar with Cap icon -->
                                                     <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm0 2a5 5 0 00-5 5v1h10v-1a5 5 0 00-5-5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 15c1.5 1 4.5 1 6 0"></path></svg>
-                                                @elseif(str_contains($type->nom, 'التعمير'))
+                                                @elseif(str_contains($type->nom, 'Reconstruction'))
                                                     <!-- Hard hat/Helmet icon -->
                                                     <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 10v1a7 7 0 01-14 0v-1m14 0a2 2 0 00-2-2H7a2 2 0 00-2 2m14 0h-2M5 10h2m5-6v2m-4-1l1 1m6-1l-1 1"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 15c1.5 1 4.5 1 6 0"></path></svg>
-                                                @elseif(str_contains($type->nom, 'الربط'))
+                                                @elseif(str_contains($type->nom, 'Enchaînement'))
                                                     <!-- Lightbulb / streams icon -->
                                                     <svg class="w-11 h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 13c1 .8 3 .8 4 0"></path></svg>
                                                 @else
@@ -149,9 +149,9 @@
 
                             <!-- District Selection -->
                             <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700">العمالة / الإقليم / المنطقة <span class="text-red-500">*</span></label>
+                                <label class="block text-sm font-bold text-slate-700">Emploi / Territoire / Zone <span class="text-red-500">*</span></label>
                                 <select id="district_id" name="district_id" required class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm font-medium">
-                                    <option value="">اختر المدينة أو الجماعة...</option>
+                                    <option value="">Sélectionnez la ville ou la communauté...</option>
                                     @foreach(\App\Models\District::all()->groupBy('region') as $regionName => $regionDistricts)
                                         <optgroup label="{{ $regionName }}">
                                             @foreach($regionDistricts as $dist)
@@ -164,9 +164,9 @@
                         </div>
 
                         <div class="mt-8 flex justify-end gap-4 border-t border-slate-100 pt-6">
-                            <a href="{{ url('/') }}" class="px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors inline-block text-sm">إلغاء</a>
+                            <a href="{{ url('/') }}" class="px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors inline-block text-sm">annulation</a>
                             <button type="button" onclick="nextStep(1)" class="px-8 py-3 bg-[#006399] text-white rounded-xl font-bold hover:bg-[#005180] transition-colors shadow-md shadow-blue-200 text-sm flex items-center gap-2">
-                                التالي: تفاصيل المشروع
+                                le prochain: Détails du projet
                                 <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                             </button>
                         </div>
@@ -175,38 +175,38 @@
                     <!-- ================= STEP 2 ================= -->
                     <div id="step2" class="wizard-step space-y-6 hidden animate-fadeIn transition-all duration-300">
                         <div class="border-b border-slate-100 pb-4 mb-6">
-                            <h2 class="text-lg font-bold text-slate-800">المرحلة الثانية: الخصائص التقنية للمشروع</h2>
-                            <p class="text-slate-400 text-xs mt-1">تحديد التسمية، المساحة، والموقع الجغرافي للمشروع</p>
+                            <h2 class="text-lg font-bold text-slate-800">La deuxième étape: Caractéristiques techniques du projet</h2>
+                            <p class="text-slate-400 text-xs mt-1">Déterminer le nom, la zone et la situation géographique du projet</p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Project Title -->
                             <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700">اسم صاحب الطلب / عنوان المشروع <span class="text-red-500">*</span></label>
-                                <input id="project_title" type="text" name="project_title" required value="{{ old('project_title') }}" placeholder="أدخل الاسم الكامل أو التسمية الرسمية" class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm font-medium">
+                                <label class="block text-sm font-bold text-slate-700">Nom du demandeur / Titre du projet <span class="text-red-500">*</span></label>
+                                <input id="project_title" type="text" name="project_title" required value="{{ old('project_title') }}" placeholder="Entrez votre nom complet ou votre désignation officielle" class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm font-medium">
                             </div>
 
                             <!-- Surface Area -->
                             <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700">مساحة المشروع (بالمتر المربع) <span class="text-red-500">*</span></label>
-                                <input id="surface" type="number" name="surface" required min="1" value="{{ old('surface') }}" placeholder="مثال: 120" class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm font-medium">
+                                <label class="block text-sm font-bold text-slate-700">Espace projet (En mètres carrés) <span class="text-red-500">*</span></label>
+                                <input id="surface" type="number" name="surface" required min="1" value="{{ old('surface') }}" placeholder="exemple: 120" class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all text-sm font-medium">
                             </div>
 
                             <!-- Address / Observations -->
                             <div class="space-y-2 md:col-span-2">
-                                <label class="block text-sm font-bold text-slate-700">ملاحظات إضافية أو تفاصيل العنوان الكامل <span class="text-red-500">*</span></label>
-                                <textarea id="project_address" rows="4" name="project_address" required placeholder="أدخل تفاصيل العنوان وأرقام القطع الأرضية بدقة..." class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all resize-none text-sm font-medium">{{ old('project_address') }}</textarea>
+                                <label class="block text-sm font-bold text-slate-700">Notes supplémentaires ou détails du titre complet <span class="text-red-500">*</span></label>
+                                <textarea id="project_address" rows="4" name="project_address" required placeholder="Entrez les détails de l'adresse et les numéros de parcelle avec précision..." class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006399]/20 focus:border-[#006399] transition-all resize-none text-sm font-medium">{{ old('project_address') }}</textarea>
                             </div>
                         </div>
 
                         <div class="mt-8 flex justify-between items-center border-t border-slate-100 pt-6">
                             <button type="button" onclick="prevStep(2)" class="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold hover:bg-slate-50 transition-colors text-sm flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                السابق
+                                le précédent
                             </button>
                             
                             <button type="button" onclick="nextStep(2)" class="px-8 py-3 bg-[#006399] text-white rounded-xl font-bold hover:bg-[#005180] transition-colors shadow-md shadow-blue-200 text-sm flex items-center gap-2">
-                                التالي: المرفقات والوثائق
+                                le prochain: Pièces jointes et documents
                                 <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                             </button>
                         </div>
@@ -215,29 +215,29 @@
                     <!-- ================= STEP 3 ================= -->
                     <div id="step3" class="wizard-step space-y-6 hidden animate-fadeIn transition-all duration-300">
                         <div class="border-b border-slate-100 pb-4 mb-6">
-                            <h2 class="text-lg font-bold text-slate-800">المرحلة الثالثة: رفع الوثائق الإدارية والمرفقات</h2>
-                            <p class="text-slate-400 text-xs mt-1">يرجى إرفاق الوثائق الداعمة لملف البناء للتدقيق التقني والإداري</p>
+                            <h2 class="text-lg font-bold text-slate-800">La troisième étape: Mise en ligne de documents administratifs et de pièces jointes</h2>
+                            <p class="text-slate-400 text-xs mt-1">Merci de joindre les pièces justificatives au dossier de construction pour audit technique et administratif</p>
                         </div>
 
                         <!-- Instruction Box -->
                         <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4 text-xs sm:text-sm text-blue-900 space-y-2">
-                            <p class="font-bold text-[#006399]">الوثائق الإلزامية للملف:</p>
+                            <p class="font-bold text-[#006399]">Documents obligatoires à déposer:</p>
                             <ul class="list-disc list-inside space-y-1 text-slate-700 font-medium">
-                                <li>نسخة من بطاقة التعريف الوطنية (CIN) للمالك</li>
-                                <li>شهادة الملكية أو عقد الكراء الموثق</li>
-                                <li>التصاميم الهندسية والمعمارية (بصيغة PDF)</li>
+                                <li>Une copie de la carte d'identité nationale (CIN) Pour le propriétaire</li>
+                                <li>Certificat de propriété ou contrat de location notarié</li>
+                                <li>Conceptions techniques et architecturales (Sous forme de PDF)</li>
                             </ul>
                         </div>
 
                         <!-- Documents File Upload Input -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-bold text-slate-700">رفع الملفات (PDF أو صور) <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-bold text-slate-700">Télécharger des fichiers (PDF Ou des photos) <span class="text-red-500">*</span></label>
                             <div class="relative border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-[#006399] transition-colors bg-slate-50/50">
                                 <input id="documents" type="file" name="documents[]" multiple required accept=".pdf,.jpg,.jpeg,.png" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                                 <div class="flex flex-col items-center gap-2 pointer-events-none">
                                     <svg class="w-10 h-10 text-[#006399]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                    <p class="text-sm font-bold text-slate-700">اضغط هنا لاختيار الملفات أو قم بسحبها وإفلاتها</p>
-                                    <p class="text-xs text-slate-400">الحد الأقصى لكل ملف: 10 ميغابايت</p>
+                                    <p class="text-sm font-bold text-slate-700">Cliquez ici pour sélectionner des fichiers ou faites-les glisser et déposez-les</p>
+                                    <p class="text-xs text-slate-400">Maximum par fichier: 10 Mo</p>
                                 </div>
                             </div>
                             <div id="fileList" class="mt-2 flex flex-wrap gap-2"></div>
@@ -246,12 +246,12 @@
                         <div class="mt-8 flex justify-between items-center border-t border-slate-100 pt-6">
                             <button type="button" onclick="prevStep(3)" class="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold hover:bg-slate-50 transition-colors text-sm flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
-                                السابق
+                                le précédent
                             </button>
                             
                             <button type="submit" class="px-8 py-3 bg-[#006399] text-white rounded-xl font-bold hover:bg-[#005180] transition-all shadow-md shadow-blue-200 text-sm flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                إرسال الطلب ومتابعة المشروع
+                                Déposer la demande et faire le suivi du projet
                             </button>
                         </div>
                     </div>

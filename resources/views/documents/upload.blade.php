@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'رفع وثيقة جديدة')
+@section('title', 'Télécharger un nouveau document')
 
 @section('content')
 <div class="max-w-2xl mx-auto">
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-slate-800 mb-1">إضافة وثيقة جديدة</h1>
-        <p class="text-slate-500 text-sm">قم برفع الوثائق المتعلقة بطلبات التراخيص.</p>
+        <h1 class="text-2xl font-bold text-slate-800 mb-1">Ajouter un nouveau document</h1>
+        <p class="text-slate-500 text-sm">Télécharger des documents liés aux demandes de licence.</p>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
         <form class="space-y-6">
             <div class="space-y-2">
-                <label class="block text-sm font-bold text-slate-700">نوع الوثيقة</label>
+                <label class="block text-sm font-bold text-slate-700">Type de document</label>
                 <select class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
-                    <option value="">اختر نوع الوثيقة...</option>
-                    <option value="plan">مخطط هندسي</option>
-                    <option value="identity">وثيقة تعريفية</option>
-                    <option value="property">سند ملكية</option>
+                    <option value="">Choisissez le type de document...</option>
+                    <option value="plan">Tableau d'ingénierie</option>
+                    <option value="identity">Document introductif</option>
+                    <option value="property">titre</option>
                 </select>
             </div>
 
             <div class="space-y-2">
-                <label class="block text-sm font-bold text-slate-700">الملف المرفق</label>
+                <label class="block text-sm font-bold text-slate-700">Fichier joint</label>
                 <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition-all cursor-pointer group">
                     <div class="space-y-1 text-center">
                         <svg class="mx-auto h-12 w-12 text-slate-400 group-hover:text-blue-500 transition-colors" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -30,17 +30,17 @@
                         </svg>
                         <div class="flex text-sm text-slate-600 justify-center">
                             <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                <span>اختر ملفاً للرفع</span>
+                                <span>Choisissez un fichier à télécharger</span>
                                 <input id="file-upload" name="file-upload" type="file" class="sr-only">
                             </label>
-                            <p class="pl-1">أو اسحب وأفلت الملف هنا</p>
+                            <p class="pl-1">Ou faites glisser et déposez le fichier ici</p>
                         </div>
-                        <p class="text-xs text-slate-500">PNG, JPG, PDF حتى 10MB</p>
+                        <p class="text-xs text-slate-500">PNG, JPG, PDF jusqu'à 10MB</p>
                     </div>
                 </div>
             </div>
 
-            <button type="button" class="w-full px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md shadow-blue-200">رفع الوثيقة</button>
+            <button type="button" class="w-full px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md shadow-blue-200">Téléchargez le document</button>
         </form>
     </div>
 </div>
